@@ -4,20 +4,21 @@ public class Doraemon {
     public static void main(String[] args) {
         String line;
         Scanner in = new Scanner(System.in);
+        List list = new List();
+        String[] words;
 
-        line = "\tHello! I'm Doraemon!\n\tWhat can I do for you?";
+        line = "\t Hello! I'm Doraemon!\n\t What can I do for you?";
         echo(line);
         line = in.nextLine();
 
-        List list = new List();
         while (!line.equals("bye")) {
             if (line.equals("list")) list.printTasks();
             else if (line.startsWith("mark")) {
-                String[] words = line.split(" ");
-                list.markAsDone(Integer.parseInt(words[1]));
+                words = line.split(" ");
+                list.markAsDone(Integer.parseInt(words[1]) - 1);
             } else if (line.startsWith("unmark")) {
-                String[] words = line.split(" ");
-                list.markAsNotDone(Integer.parseInt(words[1]));
+                words = line.split(" ");
+                list.markAsNotDone(Integer.parseInt(words[1]) - 1);
             } else list.addTask(line);
             line = in.nextLine();
         }
