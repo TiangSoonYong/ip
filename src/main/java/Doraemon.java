@@ -6,17 +6,20 @@ public class Doraemon {
         Scanner in = new Scanner(System.in);
 
         line = "\tHello! I'm Doraemon!\n\tWhat can I do for you?";
-        printOut(line);
+        echo(line);
         line = in.nextLine();
 
-        while(!line.equals("bye")){
-            printOut("\t"+line);
+        List list = new List();
+        while (!line.equals("bye")) {
+            if (line.equals("list")) list.printTasks();
+            else list.addTask(line);
             line = in.nextLine();
         }
         line = "\tBye. Hope to see you again soon!";
-        printOut(line);
+        echo(line);
     }
-    private static void printOut(String line){
+
+    private static void echo(String line) {
         System.out.println("\t__________________________________________________");
         System.out.println(line);
         System.out.println("\t__________________________________________________");
