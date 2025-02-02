@@ -12,7 +12,13 @@ public class Doraemon {
         List list = new List();
         while (!line.equals("bye")) {
             if (line.equals("list")) list.printTasks();
-            else list.addTask(line);
+            else if (line.startsWith("mark")) {
+                String[] words = line.split(" ");
+                list.markAsDone(Integer.parseInt(words[1]));
+            } else if (line.startsWith("unmark")) {
+                String[] words = line.split(" ");
+                list.markAsNotDone(Integer.parseInt(words[1]));
+            } else list.addTask(line);
             line = in.nextLine();
         }
         line = "\tBye. Hope to see you again soon!";
