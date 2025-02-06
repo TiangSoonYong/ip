@@ -13,7 +13,6 @@ public class Doraemon {
     private static final String COMMAND_LIST = "list";
     private static final String COMMAND_MARK = "mark";
     private static final String COMMAND_UNMARK = "unmark";
-
     private static final String COMMAND_TODO = "todo";
     private static final String COMMAND_DEADLINE = "deadline";
     private static final String COMMAND_EVENT = "event";
@@ -23,7 +22,7 @@ public class Doraemon {
 
     public static void main(String[] args) {
         echo(MESSAGE_HELLO);
-        while(true){
+        while (true) {
             String inputLine = SCANNER.nextLine();
             String feedback = executeCommand(inputLine);
             echo(feedback);
@@ -42,9 +41,9 @@ public class Doraemon {
         case COMMAND_LIST:
             return TASK_MANAGER.getTasks();
         case COMMAND_MARK:
-            return TASK_MANAGER.markDone(Integer.parseInt(commandArgs) - 1, true);
+            return TASK_MANAGER.setIsDone(Integer.parseInt(commandArgs) - 1, true);
         case COMMAND_UNMARK:
-            return TASK_MANAGER.markDone(Integer.parseInt(commandArgs) - 1, false);
+            return TASK_MANAGER.setIsDone(Integer.parseInt(commandArgs) - 1, false);
         case COMMAND_TODO:
             return TASK_MANAGER.addTask(commandArgs, TaskType.TODO);
         case COMMAND_DEADLINE:
@@ -64,11 +63,11 @@ public class Doraemon {
 
     // Formatter Methods
     private static void echo(String... message) {
-        System.out.println(LINE_DIVIDER);
+        System.out.println(LINE_PREFIX + LINE_DIVIDER);
         for (String m : message) {
             System.out.println(LINE_PREFIX + m);
         }
-        System.out.println(LINE_DIVIDER);
+        System.out.println(LINE_PREFIX + LINE_DIVIDER);
     }
 }
 

@@ -1,7 +1,7 @@
 public class TaskManager {
-    public static final String DATA_PREFIX_BY = "/by";
-    public static final String DATA_PREFIX_FROM = "/from";
-    public static final String DATA_PREFIX_TO = "/to";
+    private static final String DATA_PREFIX_BY = "/by";
+    private static final String DATA_PREFIX_FROM = "/from";
+    private static final String DATA_PREFIX_TO = "/to";
 
     private final Task[] tasks = new Task[100];
     private int taskCount = 0;
@@ -48,12 +48,17 @@ public class TaskManager {
 
         description = commandArgs.substring(0, indexOfFirstPrefix).trim();
         if (indexOfFromPrefix < indexOfToPrefix) { // Description - From - To
-            from = removePrefixSign(commandArgs.substring(indexOfFromPrefix, indexOfToPrefix), DATA_PREFIX_FROM).trim();
-            to = removePrefixSign(commandArgs.substring(indexOfToPrefix, commandArgs.length()), DATA_PREFIX_TO).trim();
+            from = removePrefixSign(
+                    commandArgs.substring(indexOfFromPrefix, indexOfToPrefix),
+                    DATA_PREFIX_FROM).trim();
+            to = removePrefixSign(commandArgs.substring(indexOfToPrefix, commandArgs.length()),
+                    DATA_PREFIX_TO).trim();
 
         } else { // Description - To - From
-            from = removePrefixSign(commandArgs.substring(indexOfFromPrefix, commandArgs.length()), DATA_PREFIX_FROM).trim();
-            to = removePrefixSign(commandArgs.substring(indexOfToPrefix, indexOfFromPrefix), DATA_PREFIX_TO).trim();
+            from = removePrefixSign(commandArgs.substring(indexOfFromPrefix, commandArgs.length()),
+                    DATA_PREFIX_FROM).trim();
+            to = removePrefixSign(commandArgs.substring(indexOfToPrefix, indexOfFromPrefix),
+                    DATA_PREFIX_TO).trim();
         }
         tasks[taskCount] = new Event(description, from, to);
     }
@@ -70,8 +75,12 @@ public class TaskManager {
         return message;
     }
 
-    public String markDone(int taskIndex, boolean done) {
-        tasks[taskIndex].setDone(done);
-        return "Nice! I've marked this task as " + (done ? "done" : "not done yet") + ":\n\t\t " + tasks[taskIndex];
+    public String setIsDone(int taskIndex, boolean isDone) {
+        tasks[taskIndex].setDone(isDone);
+        if (isDone) {
+            return "Nice! I've marked this task as done:\n\t\t " + tasks[taskIndex];
+        } else {
+            return "Nice! I've marked this task as not done yet:\n\t\t " + tasks[taskIndex];
+        }
     }
 }
