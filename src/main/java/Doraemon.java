@@ -16,6 +16,7 @@ public class Doraemon {
     private static final String COMMAND_TODO = "todo";
     private static final String COMMAND_DEADLINE = "deadline";
     private static final String COMMAND_EVENT = "event";
+    private static final String MESSAGE_INVALID = "Invalid Command";
 
     private static final TaskManager TASK_MANAGER = new TaskManager();
     private static final Scanner SCANNER = new Scanner(System.in);
@@ -52,7 +53,7 @@ public class Doraemon {
             return TASK_MANAGER.addTask(commandArgs, TaskType.EVENT);
         default:
             // Invalid command should throw an exception but assume all valid for now
-            return "Invalid Command";
+            return MESSAGE_INVALID;
         }
     }
 
