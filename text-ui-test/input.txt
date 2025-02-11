@@ -1,7 +1,20 @@
+test
+mark 1
+todo
 todo read book
 mark 1
+deadline
+deadline return book
+deadline return book /by
 deadline return book /by June 6th
+event
+event project meeting
+event project meeting /from
+event project meeting /to
+event project meeting /to 4pm /from
+event project meeting /from Aug 6th 2pm /to
 event project meeting /from Aug 6th 2pm /to 4pm
+event project meeting /to 4pm /from Aug 6th 2pm
 todo join sports club
 mark 4
 todo borrow book
