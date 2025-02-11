@@ -2,51 +2,94 @@ public class TaskManager {
     private static final String DATA_PREFIX_BY = "/by";
     private static final String DATA_PREFIX_FROM = "/from";
     private static final String DATA_PREFIX_TO = "/to";
+    private static final int MAX_TASKS_SIZE = 100;
 
-    private final Task[] tasks = new Task[100];
+    private final Task[] tasks = new Task[MAX_TASKS_SIZE];
     private int taskCount = 0;
 
     public String addTask(String commandArgs, TaskType taskType) {
-        switch (taskType) {
-        case TODO:
-            addToDo(commandArgs);
-            break;
-        case DEADLINE:
-            addDeadline(commandArgs);
-            break;
-        case EVENT:
-            addEvent(commandArgs);
-            break;
-        default:
-            // Throw exception
+        try {
+            switch (taskType) {
+            case TODO:
+                addToDo(commandArgs);
+                break;
+            case DEADLINE:
+                addDeadline(commandArgs);
+                break;
+            case EVENT:
+                addEvent(commandArgs);
+                break;
+            default:
+                // Throw exception
+            }
+        } catch (NoDescriptionException e) {
+            return "The description is empty!";
+        } catch (NoByPrefixException e) {
+            return "By prefix [/by] is missing!";
+        } catch (NoByStringException e) {
+            return "The deadline is empty!";
+        } catch (NoFromPrefixException e) {
+            return "From prefix [/from] is missing!";
+        } catch (NoFromStringException e) {
+            return "The start date is missing!";
+        } catch (NoToPrefixException e) {
+            return "To prefix [/to] is missing!";
+        } catch (NoToStringException e) {
+            return "The end date is missing!";
         }
+
         taskCount++;
         return "Got it. I've added this task:" +
                 "\n\t\t" + tasks[taskCount - 1] +
                 "\n\t Now you have " + taskCount + " tasks in the list.";
     }
 
-    private void addToDo(String commandArgs) {
+    private void addToDo(String commandArgs)
+            throws NoDescriptionException {
         String description = commandArgs;
+        if (description.isEmpty()) {
+            throw new NoDescriptionException();
+        }
         tasks[taskCount] = new ToDo(description);
     }
 
-    private void addDeadline(String commandArgs) {
+    private void addDeadline(String commandArgs)
+            throws NoDescriptionException, NoByPrefixException, NoByStringException {
         final int indexOfByPrefix = commandArgs.indexOf(DATA_PREFIX_BY);
+        if (indexOfByPrefix < 0) {
+            throw new NoByPrefixException();
+        }
         String description = commandArgs.substring(0, indexOfByPrefix).trim();
+        if (description.isEmpty()) {
+            throw new NoDescriptionException();
+        }
         String by = removePrefixSign(commandArgs.substring(indexOfByPrefix, commandArgs.length()), DATA_PREFIX_BY).trim();
+        if (by.isEmpty()) {
+            throw new NoByStringException();
+        }
         tasks[taskCount] = new Deadline(description, by);
     }
 
-    private void addEvent(String commandArgs) {
+    private void addEvent(String commandArgs)
+            throws NoDescriptionException, NoFromPrefixException, NoFromStringException,
+            NoToPrefixException, NoToStringException {
         final int indexOfFromPrefix = commandArgs.indexOf(DATA_PREFIX_FROM);
         final int indexOfToPrefix = commandArgs.indexOf(DATA_PREFIX_TO);
+        if (indexOfFromPrefix < 0) {
+            throw new NoFromPrefixException();
+        }
+        if (indexOfToPrefix < 0) {
+            throw new NoToPrefixException();
+        }
         int indexOfFirstPrefix = Math.min(indexOfFromPrefix, indexOfToPrefix);
         String description;
         String from;
         String to;
 
         description = commandArgs.substring(0, indexOfFirstPrefix).trim();
+        if (description.isEmpty()) {
+            throw new NoDescriptionException();
+        }
         if (indexOfFromPrefix < indexOfToPrefix) { // Description - From - To
             from = removePrefixSign(
                     commandArgs.substring(indexOfFromPrefix, indexOfToPrefix),
@@ -59,6 +102,13 @@ public class TaskManager {
                     DATA_PREFIX_FROM).trim();
             to = removePrefixSign(commandArgs.substring(indexOfToPrefix, indexOfFromPrefix),
                     DATA_PREFIX_TO).trim();
+        }
+
+        if (from.isEmpty()) {
+            throw new NoFromStringException();
+        }
+        if (to.isEmpty()) {
+            throw new NoToStringException();
         }
         tasks[taskCount] = new Event(description, from, to);
     }
@@ -76,7 +126,11 @@ public class TaskManager {
     }
 
     public String setIsDone(int taskIndex, boolean isDone) {
-        tasks[taskIndex].setDone(isDone);
+        try {
+            tasks[taskIndex].setDone(isDone);
+        } catch (Exception e) {
+            return "Task " + (taskIndex + 1) + " does not exist";
+        }
         if (isDone) {
             return "Nice! I've marked this task as done:\n\t\t " + tasks[taskIndex];
         } else {
