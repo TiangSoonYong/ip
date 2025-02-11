@@ -1,3 +1,8 @@
+package doraemon;
+
+import doraemon.task.TaskManager;
+import doraemon.task.TaskType;
+
 import java.util.Scanner;
 
 
