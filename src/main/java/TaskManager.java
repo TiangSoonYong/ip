@@ -30,7 +30,7 @@ public class TaskManager {
             return "The deadline is empty!";
         } catch (NoFromPrefixException e) {
             return "From prefix [/from] is missing!";
-        } catch (NoFromStringException e){
+        } catch (NoFromStringException e) {
             return "The start date is missing!";
         } catch (NoToPrefixException e) {
             return "To prefix [/to] is missing!";

@@ -7,12 +7,41 @@ public class Doraemon {
     private static final String LINE_DIVIDER = "__________________________________________________";
 
     // Will go to Parser class in future development
+    private static final String LS = "\n\t "; // Line Separator
     private static final String MESSAGE_GOODBYE = "Bye. Hope to see you again soon!";
     private static final String MESSAGE_HELLO =
-            "Hello! I'm Doraemon!" +
-            "\n\t What can I do for you?" +
-            "\n\t Type [help] for all commands";
-    private static final String MESSAGE_INVALID = "Invalid Command";
+            "Hello! I'm Doraemon!" + LS +
+                    "What can I do for you?" + LS +
+                    "Type [help] for all commands";
+    private static final String MESSAGE_INVALID =
+            "Invalid Command!" + LS
+                    + "Type [help] for all commands";
+    // Split into individual message, allowing them to be used for exceptions handling
+    private static final String MESSAGE_HELP =
+            "[todo]: Creates a task that you need to do" + LS +
+                    "Parameters: todo description" + LS +
+                    "Example: todo finish iP" + LS + LS +
+                    "[deadline]: Creates a task that needs to be finish by a deadline" + LS +
+                    "Parameters: deadline description /by end date" + LS +
+                    "Example: deadline do week 5 task /by 14 Feb 1600" + LS + LS +
+                    "[event]: Creates a task that have a start and end date" + LS +
+                    "Parameters: event description /from start date /to end date" + LS +
+                    "            event description /to end date /from start date" + LS +
+                    "Example: event exam week /from 26 Apr /to 10 May" + LS + LS +
+                    "[list]: Display every tasks with task number, its type and whether it is done" + LS +
+                    "Format: [TaskType][isDone] Task_Description" + LS +
+                    "Example: list" + LS + LS +
+                    "[mark]: Mark specified task as done" + LS +
+                    "Parameters: mark task-number" + LS +
+                    "Example: mark 1" + LS + LS +
+                    "[unmark]: Mark specified task as not done" + LS +
+                    "Parameters: unmark task-number" + LS +
+                    "Example: unmark 1" + LS + LS +
+                    "[help]: Displays this current message, showing all commands with examples and format" + LS +
+                    "Example: help" + LS + LS +
+                    "[bye]: Exits the programme" + LS +
+                    "Example: bye";
+
 
     private static final String COMMAND_TODO = "todo";
     private static final String COMMAND_DEADLINE = "deadline";
@@ -20,10 +49,8 @@ public class Doraemon {
     private static final String COMMAND_LIST = "list";
     private static final String COMMAND_MARK = "mark";
     private static final String COMMAND_UNMARK = "unmark";
-    private static final String COMMAND_HELP = "help";
     private static final String COMMAND_BYE = "bye";
-
-
+    private static final String COMMAND_HELP = "help";
 
     private static final TaskManager TASK_MANAGER = new TaskManager();
     private static final Scanner SCANNER = new Scanner(System.in);
@@ -61,7 +88,7 @@ public class Doraemon {
             case COMMAND_EVENT:
                 return TASK_MANAGER.addTask(commandArgs, TaskType.EVENT);
             case COMMAND_HELP:
-                return "FUTURE DEVELOPMENT";
+                return MESSAGE_HELP;
             default:
                 // In the future, can output all valid commands
                 return MESSAGE_INVALID;
