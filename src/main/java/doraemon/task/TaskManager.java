@@ -25,7 +25,7 @@ public class TaskManager {
     private static final int MAX_TASKS_SIZE = 100;
     private static final String FILE_DIRECTORY = "data/";
     private static final String FILE_NAME = "tasks.txt";
-    private static final String DELIMITER = " | ";
+    private static final String DELIMITER = " \\| ";
 
     private final Task[] tasks = new Task[MAX_TASKS_SIZE];
     private int taskCount = 0;
@@ -62,9 +62,7 @@ public class TaskManager {
         }
 
         taskCount++;
-        return "Got it. I've added this task:" +
-                "\n\t\t" + tasks[taskCount - 1] +
-                "\n\t Now you have " + taskCount + " tasks in the list.";
+        return "Got it. I've added this task:" + "\n\t\t" + tasks[taskCount - 1] + "\n\t Now you have " + taskCount + " tasks in the list.";
     }
 
     private void addToDo(String commandArgs)
@@ -114,8 +112,7 @@ public class TaskManager {
             throw new NoDescriptionException();
         }
         if (indexOfFromPrefix < indexOfToPrefix) { // Description - From - To
-            from = removePrefixSign(
-                    commandArgs.substring(indexOfFromPrefix, indexOfToPrefix),
+            from = removePrefixSign(commandArgs.substring(indexOfFromPrefix, indexOfToPrefix),
                     DATA_PREFIX_FROM).trim();
             to = removePrefixSign(commandArgs.substring(indexOfToPrefix, commandArgs.length()),
                     DATA_PREFIX_TO).trim();
@@ -167,12 +164,29 @@ public class TaskManager {
         try {
             s = new Scanner(f); // create a Scanner using the File as the source
         } catch (FileNotFoundException e) {
-            return "Tasks file not found!";
+            return "Tasks.txt not found!";
         }
+        // Should probably change split[X] to actual names for code clarity
         while (s.hasNext()) {
-            System.out.println(s.nextLine());
+            String[] split = s.nextLine().split(DELIMITER);
+            Task temp = new ToDo("Dummy");
+            switch (split[0]) {
+            case "T":
+                temp = new ToDo(split[2]);
+                break;
+            case "D":
+                temp = new Deadline(split[2], split[3]);
+                break;
+            case "E":
+                temp = new Event(split[2], split[3], split[4]);
+                break;
+            default: // Throw Invalid Format Exception
+            }
+            temp.setDone(split[1].equals("X"));
+            tasks[taskCount] = temp;
+            taskCount++;
         }
-        return "Tasks file read successfully";
+        return "Tasks.txt read successfully";
     }
 
     public String saveTasksAsFile() {
@@ -186,16 +200,15 @@ public class TaskManager {
                 file.createNewFile();
             }
             FileWriter fw = new FileWriter(file);
-            for (int i = 0; i < taskCount; i++){
+            for (int i = 0; i < taskCount; i++) {
                 String textToAdd = tasks[i].getTaskAsText();
                 fw.write(textToAdd + System.lineSeparator());
             }
             fw.close();
         } catch (IOException e) {
-            return "Tasks file failed to save";
+            return "Tasks.txt failed to save";
         }
-        return "Tasks file saved successfully" +
-                "\n\tfull path: " + file.getAbsolutePath();
+        return "Tasks.txt saved successfully" + "\n\tfull path: " + file.getAbsolutePath();
     }
 
 }

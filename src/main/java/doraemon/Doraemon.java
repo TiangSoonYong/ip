@@ -62,7 +62,8 @@ public class Doraemon {
     private static final Scanner SCANNER = new Scanner(System.in);
 
     public static void main(String[] args) {
-        echo(MESSAGE_HELLO + LS + LS + TASK_MANAGER.readTasksAsFile());
+        echo(MESSAGE_HELLO);
+        echo(TASK_MANAGER.readTasksAsFile() + LS + TASK_MANAGER.getTasks());
         while (true) {
             String inputLine = SCANNER.nextLine();
             String feedback = executeCommand(inputLine);
