@@ -8,13 +8,14 @@ import doraemon.exceptions.NoFromStringException;
 import doraemon.exceptions.NoToPrefixException;
 import doraemon.exceptions.NoToStringException;
 
+import java.util.ArrayList;
+
 public class TaskManager {
     private static final String DATA_PREFIX_BY = "/by";
     private static final String DATA_PREFIX_FROM = "/from";
     private static final String DATA_PREFIX_TO = "/to";
-    private static final int MAX_TASKS_SIZE = 100;
 
-    private final Task[] tasks = new Task[MAX_TASKS_SIZE];
+    private final ArrayList<Task> tasks = new ArrayList<>();
     private int taskCount = 0;
 
     public String addTask(String commandArgs, TaskType taskType) {
@@ -50,7 +51,7 @@ public class TaskManager {
 
         taskCount++;
         return "Got it. I've added this task:" +
-                "\n\t\t" + tasks[taskCount - 1] +
+                "\n\t\t" + tasks.get(taskCount - 1) +
                 "\n\t Now you have " + taskCount + " tasks in the list.";
     }
 
@@ -60,7 +61,7 @@ public class TaskManager {
         if (description.isEmpty()) {
             throw new NoDescriptionException();
         }
-        tasks[taskCount] = new ToDo(description);
+        tasks.add(taskCount, new ToDo(description));
     }
 
     private void addDeadline(String commandArgs)
@@ -77,7 +78,7 @@ public class TaskManager {
         if (by.isEmpty()) {
             throw new NoByStringException();
         }
-        tasks[taskCount] = new Deadline(description, by);
+        tasks.add(taskCount, new Deadline(description, by));
     }
 
     private void addEvent(String commandArgs)
@@ -120,7 +121,7 @@ public class TaskManager {
         if (to.isEmpty()) {
             throw new NoToStringException();
         }
-        tasks[taskCount] = new Event(description, from, to);
+        tasks.add(taskCount, new Event(description, from, to));
     }
 
     private static String removePrefixSign(String s, String sign) {
@@ -130,21 +131,21 @@ public class TaskManager {
     public String getTasks() {
         String message = "Here are the tasks in your list:";
         for (int i = 0; i < taskCount; i++) {
-            message += "\n\t " + String.format("%d. ", i + 1) + tasks[i];
+            message += "\n\t " + String.format("%d. ", i + 1) + tasks.get(i);
         }
         return message;
     }
 
     public String setIsDone(int taskIndex, boolean isDone) {
         try {
-            tasks[taskIndex].setDone(isDone);
+            tasks.get(taskIndex).setDone(isDone);
         } catch (Exception e) {
             return "Task " + (taskIndex + 1) + " does not exist";
         }
         if (isDone) {
-            return "Nice! I've marked this task as done:\n\t\t " + tasks[taskIndex];
+            return "Nice! I've marked this task as done:\n\t\t " + tasks.get(taskIndex);
         } else {
-            return "Nice! I've marked this task as not done yet:\n\t\t " + tasks[taskIndex];
+            return "Nice! I've marked this task as not done yet:\n\t\t " + tasks.get(taskIndex);
         }
     }
 }
