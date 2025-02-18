@@ -70,6 +70,7 @@ public class Doraemon {
     private static final String COMMAND_LIST = "list";
     private static final String COMMAND_MARK = "mark";
     private static final String COMMAND_UNMARK = "unmark";
+    private static final String COMMAND_DELETE = "delete";
     private static final String COMMAND_BYE = "bye";
     private static final String COMMAND_HELP = "help";
 
@@ -108,6 +109,8 @@ public class Doraemon {
                 return TASK_MANAGER.addTask(commandArgs, TaskType.DEADLINE);
             case COMMAND_EVENT:
                 return TASK_MANAGER.addTask(commandArgs, TaskType.EVENT);
+            case COMMAND_DELETE:
+                return TASK_MANAGER.deleteTask(Integer.parseInt(commandArgs) - 1);
             case COMMAND_HELP:
                 return MESSAGE_HELP;
             default:

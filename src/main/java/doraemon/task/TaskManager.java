@@ -148,4 +148,18 @@ public class TaskManager {
             return "Nice! I've marked this task as not done yet:\n\t\t " + tasks.get(taskIndex);
         }
     }
+
+    public String deleteTask(int taskIndex) {
+        String task;
+        try {
+            task = String.valueOf(tasks.get(taskIndex));
+            tasks.remove(taskIndex);
+            taskCount--;
+        } catch (Exception e) {
+            return "Task " + (taskIndex + 1) + " does not exist";
+        }
+        return "Noted. I've removed this task" +
+                "\n\t\t" + task +
+                "\n\t Now you have " + taskCount + " tasks in the list.";
+    }
 }
