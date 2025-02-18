@@ -1,6 +1,7 @@
 package doraemon.task;
 
-public class Task {
+public abstract class Task {
+    protected static final String DELIMITER = " | ";
     protected String description;
     protected boolean isDone;
 
@@ -8,6 +9,9 @@ public class Task {
         this.description = description;
         this.isDone = false;
     }
+
+    public abstract String getTaskIcon();
+    public abstract String getTaskAsText();
 
     public String getStatusIcon() {
         return (isDone ? "X" : " "); // mark done task with X

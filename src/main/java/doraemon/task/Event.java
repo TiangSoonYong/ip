@@ -1,6 +1,7 @@
 package doraemon.task;
 
 public class Event extends Task {
+    protected static final TaskType type = TaskType.EVENT;
     protected String from;
     protected String to;
 
@@ -11,7 +12,21 @@ public class Event extends Task {
     }
 
     @Override
+    public String getTaskIcon() {
+        return "E";
+    }
+
+    @Override
+    public String getTaskAsText() {
+        return this.getTaskIcon() + DELIMITER +
+                this.getStatusIcon() + DELIMITER +
+                this.description + DELIMITER +
+                this.from + DELIMITER +
+                this.to;
+    }
+
+    @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + this.from + " to: " + this.to + ")";
+        return "[" + this.getTaskIcon() + "]" + super.toString() + " (from: " + this.from + " to: " + this.to + ")";
     }
 }

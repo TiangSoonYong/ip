@@ -8,11 +8,24 @@ import doraemon.exceptions.NoFromStringException;
 import doraemon.exceptions.NoToPrefixException;
 import doraemon.exceptions.NoToStringException;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.util.Scanner;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 public class TaskManager {
     private static final String DATA_PREFIX_BY = "/by";
     private static final String DATA_PREFIX_FROM = "/from";
     private static final String DATA_PREFIX_TO = "/to";
     private static final int MAX_TASKS_SIZE = 100;
+    private static final String FILE_DIRECTORY = "data/";
+    private static final String FILE_NAME = "tasks.txt";
+    private static final String DELIMITER = " | ";
 
     private final Task[] tasks = new Task[MAX_TASKS_SIZE];
     private int taskCount = 0;
@@ -147,4 +160,42 @@ public class TaskManager {
             return "Nice! I've marked this task as not done yet:\n\t\t " + tasks[taskIndex];
         }
     }
+
+    public String readTasksAsFile() {
+        File f = new File(FILE_DIRECTORY + FILE_NAME); // create a File for the given file path
+        Scanner s;
+        try {
+            s = new Scanner(f); // create a Scanner using the File as the source
+        } catch (FileNotFoundException e) {
+            return "Tasks file not found!";
+        }
+        while (s.hasNext()) {
+            System.out.println(s.nextLine());
+        }
+        return "Tasks file read successfully";
+    }
+
+    public String saveTasksAsFile() {
+        File dir = new File(FILE_DIRECTORY);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        File file = new File(FILE_DIRECTORY, FILE_NAME);
+        try {
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fw = new FileWriter(file);
+            for (int i = 0; i < taskCount; i++){
+                String textToAdd = tasks[i].getTaskAsText();
+                fw.write(textToAdd + System.lineSeparator());
+            }
+            fw.close();
+        } catch (IOException e) {
+            return "Tasks file failed to save";
+        }
+        return "Tasks file saved successfully" +
+                "\n\tfull path: " + file.getAbsolutePath();
+    }
+
 }
