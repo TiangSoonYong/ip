@@ -12,6 +12,7 @@ public class Doraemon {
     private static final String LINE_DIVIDER = "__________________________________________________";
 
     // Will go to Parser class in future development
+    // or perhaps a User Guide
     private static final String LS = "\n\t "; // Line Separator
     private static final String MESSAGE_GOODBYE = "Bye. Hope to see you again soon!";
     private static final String MESSAGE_HELLO =
@@ -47,6 +48,16 @@ public class Doraemon {
             "[unmark]: Mark specified task as not done" + LS +
                     "Parameters: unmark task-number" + LS +
                     "Example: unmark 1" + LS;
+    private static final String USAGE_INFO_DELETE =
+            "[delete]: Delete specified task" + LS +
+                    "Parameters: delete task-number" + LS +
+                    "Example: delete 1" + LS;
+    private static final String USAGE_INFO_SAVE =
+            "[save]: Save all tasks into a text file" + LS +
+                    "Example: save" + LS;
+    private static final String USAGE_INFO_CLEAR =
+            "[clear]: Clear all tasks in the list" + LS +
+                    "Example: clear" + LS;
     private static final String USAGE_INFO_HELP =
             "[help]: Displays this current message, showing all commands with examples and format" + LS +
                     "Example: help" + LS;
@@ -60,6 +71,9 @@ public class Doraemon {
                     USAGE_INFO_LIST + LS +
                     USAGE_INFO_MARK + LS +
                     USAGE_INFO_UNMARK + LS +
+                    USAGE_INFO_DELETE + LS +
+                    USAGE_INFO_CLEAR + LS +
+                    USAGE_INFO_SAVE + LS +
                     USAGE_INFO_HELP + LS +
                     USAGE_INFO_BYE;
 
@@ -74,6 +88,7 @@ public class Doraemon {
     private static final String COMMAND_BYE = "bye";
     private static final String COMMAND_HELP = "help";
     private static final String COMMAND_SAVE = "save";
+    private static final String COMMAND_CLEAR = "clear";
 
     private static final TaskManager TASK_MANAGER = new TaskManager();
     private static final Scanner SCANNER = new Scanner(System.in);
@@ -116,6 +131,8 @@ public class Doraemon {
                 return MESSAGE_HELP;
             case COMMAND_SAVE:
                 return TASK_MANAGER.saveTasksAsFile();
+            case COMMAND_CLEAR:
+                return TASK_MANAGER.clearTasks();
             default:
                 // In the future, can output all valid commands
                 return MESSAGE_INVALID;

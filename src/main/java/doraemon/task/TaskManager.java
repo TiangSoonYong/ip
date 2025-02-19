@@ -1,5 +1,6 @@
 package doraemon.task;
 
+import doraemon.exceptions.InvalidFormatException;
 import doraemon.exceptions.NoByPrefixException;
 import doraemon.exceptions.NoByStringException;
 import doraemon.exceptions.NoDescriptionException;
@@ -11,13 +12,9 @@ import doraemon.exceptions.NoToStringException;
 import java.util.ArrayList;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
 import java.util.Scanner;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class TaskManager {
     private static final String DATA_PREFIX_BY = "/by";
@@ -26,9 +23,9 @@ public class TaskManager {
     private static final String FILE_DIRECTORY = "data/";
     private static final String FILE_NAME = "tasks.txt";
     private static final String DELIMITER = " \\| ";
+    private static final String DONE_ICON = "X";
 
     private final ArrayList<Task> tasks = new ArrayList<>();
-    private int taskCount = 0;
 
     public String addTask(String commandArgs, TaskType taskType) {
         try {
@@ -61,10 +58,9 @@ public class TaskManager {
             return "The end date is missing!";
         }
 
-        taskCount++;
         return "Got it. I've added this task:" +
-                "\n\t\t" + tasks.get(taskCount - 1) +
-                "\n\t Now you have " + taskCount + " tasks in the list.";
+                "\n\t\t" + tasks.get(tasks.size() - 1) +
+                "\n\t Now you have " + tasks.size() + " tasks in the list.";
     }
 
     private void addToDo(String commandArgs)
@@ -73,7 +69,7 @@ public class TaskManager {
         if (description.isEmpty()) {
             throw new NoDescriptionException();
         }
-        tasks.add(taskCount, new ToDo(description));
+        tasks.add(tasks.size(), new ToDo(description));
     }
 
     private void addDeadline(String commandArgs)
@@ -90,7 +86,7 @@ public class TaskManager {
         if (by.isEmpty()) {
             throw new NoByStringException();
         }
-        tasks.add(taskCount, new Deadline(description, by));
+        tasks.add(tasks.size(), new Deadline(description, by));
     }
 
     private void addEvent(String commandArgs)
@@ -132,7 +128,7 @@ public class TaskManager {
         if (to.isEmpty()) {
             throw new NoToStringException();
         }
-        tasks.add(taskCount, new Event(description, from, to));
+        tasks.add(tasks.size(), new Event(description, from, to));
     }
 
     private static String removePrefixSign(String s, String sign) {
@@ -140,9 +136,12 @@ public class TaskManager {
     }
 
     public String getTasks() {
+        if (tasks.size() == 0) {
+            return "You do not have any tasks in your list";
+        }
         String message = "Here are the tasks in your list:";
-        for (int i = 0; i < taskCount; i++) {
-            message += "\n\t " + String.format("%d. ", i + 1) + tasks.get(i);
+        for (Task task : tasks) {
+            message += "\n\t " + String.format("%d. ", tasks.indexOf(task) + 1) + task;
         }
         return message;
     }
@@ -165,44 +164,68 @@ public class TaskManager {
         try {
             task = String.valueOf(tasks.get(taskIndex));
             tasks.remove(taskIndex);
-            taskCount--;
         } catch (Exception e) {
             return "Task " + (taskIndex + 1) + " does not exist";
         }
         return "Noted. I've removed this task" +
                 "\n\t\t" + task +
-                "\n\t Now you have " + taskCount + " tasks in the list.";
+                "\n\t Now you have " + tasks.size() + " tasks in the list.";
     }
 
     public String readTasksAsFile() {
-        File f = new File(FILE_DIRECTORY + FILE_NAME); // create a File for the given file path
+        File f = new File(FILE_DIRECTORY + FILE_NAME);
         Scanner s;
+        String message = "Loading Tasks.txt\n\t ";
+        boolean hasError = false;
         try {
-            s = new Scanner(f); // create a Scanner using the File as the source
+            s = new Scanner(f);
         } catch (FileNotFoundException e) {
-            return "Tasks.txt not found!";
+            return message + "Tasks.txt not found!\n\t ";
         }
-        // Should probably change split[X] to actual names for code clarity
         while (s.hasNext()) {
-            String[] split = s.nextLine().split(DELIMITER);
-            Task temp = new ToDo("Dummy");
-            switch (split[0]) {
-            case "T":
-                temp = new ToDo(split[2]);
-                break;
-            case "D":
-                temp = new Deadline(split[2], split[3]);
-                break;
-            case "E":
-                temp = new Event(split[2], split[3], split[4]);
-                break;
-            default: // Throw Invalid Format Exception
+            Task temp;
+            try {
+                String[] commandArgs = s.nextLine().split(DELIMITER);
+                temp = parseTask(commandArgs);
+            } catch (Exception e) {
+                if (!hasError) {
+                    message += "Format Error found\n\t ";
+                    hasError = true;
+                }
+                continue;
             }
-            temp.setDone(split[1].equals("X"));
-            tasks.add(taskCount, temp);
-            taskCount++;
+            tasks.add(tasks.size(), temp);
         }
-        return "Tasks.txt read successfully";
+        if (hasError) {
+            message += "Restoring file to proper format\n\t ";
+            message += saveTasksAsFile() + "\n\t ";
+        }
+        return message + "Tasks.txt read successfully";
+    }
+
+    private static Task parseTask(String[] commandArgs) throws Exception {
+        Task temp = new ToDo("Dummy");
+        String taskType = commandArgs[0];
+        String taskStatus = commandArgs[1];
+        String description = commandArgs[2];
+        switch (taskType) {
+        case "T":
+            temp = new ToDo(description);
+            break;
+        case "D":
+            String by = commandArgs[3];
+            temp = new Deadline(description, by);
+            break;
+        case "E":
+            String from = commandArgs[3];
+            String to = commandArgs[4];
+            temp = new Event(description, from, to);
+            break;
+        default:
+            throw new Exception();
+        }
+        temp.setDone(taskStatus.equals(DONE_ICON));
+        return temp;
     }
 
     public String saveTasksAsFile() {
@@ -216,14 +239,19 @@ public class TaskManager {
                 file.createNewFile();
             }
             FileWriter fw = new FileWriter(file);
-            for (int i = 0; i < taskCount; i++) {
-                String textToAdd = tasks.get(i).getTaskAsText();
+            for (Task task : tasks) {
+                String textToAdd = task.getTaskAsText();
                 fw.write(textToAdd + System.lineSeparator());
             }
             fw.close();
         } catch (IOException e) {
             return "Tasks.txt failed to save";
         }
-        return "Tasks.txt saved successfully" + "\n\tfull path: " + file.getAbsolutePath();
+        return "Tasks.txt saved successfully" + "\n\t full path: " + file.getAbsolutePath();
+    }
+
+    public String clearTasks() {
+        tasks.clear();
+        return "All tasks has been cleared";
     }
 }

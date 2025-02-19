@@ -1,3 +1,4 @@
+clear
 test
 mark 1
 todo
@@ -24,4 +25,5 @@ event project meeting /from Mon 2pm /to 4pm
 delete 1
 delete 3
 list
+save
 bye

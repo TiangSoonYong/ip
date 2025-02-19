@@ -4,6 +4,20 @@
 	 Type [help] for all commands
 	 __________________________________________________
 	 __________________________________________________
+	 Loading Tasks.txt
+	 Tasks.txt read successfully
+	 Here are the tasks in your list:
+	 1. [D][ ] return book (by: June 6th)
+	 2. [E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
+	 3. [T][ ] join sports club
+	 4. [T][ ] borrow book
+	 5. [D][ ] return book (by: Sunday)
+	 6. [E][ ] project meeting (from: Mon 2pm to: 4pm)
+	 __________________________________________________
+	 __________________________________________________
+	 All tasks has been cleared
+	 __________________________________________________
+	 __________________________________________________
 	 Invalid Command!
 	 Type [help] for all commands
 	 __________________________________________________
@@ -115,6 +129,10 @@
 	 4. [T][ ] borrow book
 	 5. [D][ ] return book (by: Sunday)
 	 6. [E][ ] project meeting (from: Mon 2pm to: 4pm)
+	 __________________________________________________
+	 __________________________________________________
+	 Tasks.txt saved successfully
+	 full path: C:\Users\Boiyo\OneDrive\Desktop\NTU 2023\2-2\CS2113 SOFTWARE ENGINEERING & OBJECT-ORIENTED PROGRAMMING\ip\text-ui-test\data\tasks.txt
 	 __________________________________________________
 	 __________________________________________________
 	 Bye. Hope to see you again soon!
