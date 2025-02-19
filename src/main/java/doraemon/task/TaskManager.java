@@ -9,11 +9,23 @@ import doraemon.exceptions.NoToPrefixException;
 import doraemon.exceptions.NoToStringException;
 
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.util.Scanner;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class TaskManager {
     private static final String DATA_PREFIX_BY = "/by";
     private static final String DATA_PREFIX_FROM = "/from";
     private static final String DATA_PREFIX_TO = "/to";
+    private static final String FILE_DIRECTORY = "data/";
+    private static final String FILE_NAME = "tasks.txt";
+    private static final String DELIMITER = " \\| ";
 
     private final ArrayList<Task> tasks = new ArrayList<>();
     private int taskCount = 0;
@@ -102,8 +114,7 @@ public class TaskManager {
             throw new NoDescriptionException();
         }
         if (indexOfFromPrefix < indexOfToPrefix) { // Description - From - To
-            from = removePrefixSign(
-                    commandArgs.substring(indexOfFromPrefix, indexOfToPrefix),
+            from = removePrefixSign(commandArgs.substring(indexOfFromPrefix, indexOfToPrefix),
                     DATA_PREFIX_FROM).trim();
             to = removePrefixSign(commandArgs.substring(indexOfToPrefix, commandArgs.length()),
                     DATA_PREFIX_TO).trim();
@@ -161,5 +172,58 @@ public class TaskManager {
         return "Noted. I've removed this task" +
                 "\n\t\t" + task +
                 "\n\t Now you have " + taskCount + " tasks in the list.";
+    }
+
+    public String readTasksAsFile() {
+        File f = new File(FILE_DIRECTORY + FILE_NAME); // create a File for the given file path
+        Scanner s;
+        try {
+            s = new Scanner(f); // create a Scanner using the File as the source
+        } catch (FileNotFoundException e) {
+            return "Tasks.txt not found!";
+        }
+        // Should probably change split[X] to actual names for code clarity
+        while (s.hasNext()) {
+            String[] split = s.nextLine().split(DELIMITER);
+            Task temp = new ToDo("Dummy");
+            switch (split[0]) {
+            case "T":
+                temp = new ToDo(split[2]);
+                break;
+            case "D":
+                temp = new Deadline(split[2], split[3]);
+                break;
+            case "E":
+                temp = new Event(split[2], split[3], split[4]);
+                break;
+            default: // Throw Invalid Format Exception
+            }
+            temp.setDone(split[1].equals("X"));
+            tasks.add(taskCount, temp);
+            taskCount++;
+        }
+        return "Tasks.txt read successfully";
+    }
+
+    public String saveTasksAsFile() {
+        File dir = new File(FILE_DIRECTORY);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        File file = new File(FILE_DIRECTORY, FILE_NAME);
+        try {
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fw = new FileWriter(file);
+            for (int i = 0; i < taskCount; i++) {
+                String textToAdd = tasks.get(i).getTaskAsText();
+                fw.write(textToAdd + System.lineSeparator());
+            }
+            fw.close();
+        } catch (IOException e) {
+            return "Tasks.txt failed to save";
+        }
+        return "Tasks.txt saved successfully" + "\n\tfull path: " + file.getAbsolutePath();
     }
 }

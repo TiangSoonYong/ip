@@ -73,13 +73,14 @@ public class Doraemon {
     private static final String COMMAND_DELETE = "delete";
     private static final String COMMAND_BYE = "bye";
     private static final String COMMAND_HELP = "help";
+    private static final String COMMAND_SAVE = "save";
 
     private static final TaskManager TASK_MANAGER = new TaskManager();
     private static final Scanner SCANNER = new Scanner(System.in);
 
-
     public static void main(String[] args) {
         echo(MESSAGE_HELLO);
+        echo(TASK_MANAGER.readTasksAsFile() + LS + TASK_MANAGER.getTasks());
         while (true) {
             String inputLine = SCANNER.nextLine();
             String feedback = executeCommand(inputLine);
@@ -113,6 +114,8 @@ public class Doraemon {
                 return TASK_MANAGER.deleteTask(Integer.parseInt(commandArgs) - 1);
             case COMMAND_HELP:
                 return MESSAGE_HELP;
+            case COMMAND_SAVE:
+                return TASK_MANAGER.saveTasksAsFile();
             default:
                 // In the future, can output all valid commands
                 return MESSAGE_INVALID;

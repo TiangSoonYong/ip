@@ -1,6 +1,7 @@
 package doraemon.task;
 
 public class Deadline extends Task {
+    protected static final TaskType type = TaskType.DEADLINE;
     protected String by;
 
     public Deadline(String description, String by) {
@@ -9,7 +10,20 @@ public class Deadline extends Task {
     }
 
     @Override
+    public String getTaskIcon() {
+        return "D";
+    }
+
+    @Override
+    public String getTaskAsText() {
+        return this.getTaskIcon() + DELIMITER +
+                this.getStatusIcon() + DELIMITER +
+                this.description + DELIMITER +
+                this.by;
+    }
+
+    @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + this.by + ")";
+        return "[" + this.getTaskIcon() + "]" + super.toString() + " (by: " + this.by + ")";
     }
 }
