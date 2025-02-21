@@ -1,6 +1,6 @@
 package doraemon.task;
 
-import doraemon.exceptions.InvalidFormatException;
+import doraemon.exceptions.AddTaskException;
 import doraemon.exceptions.NoByPrefixException;
 import doraemon.exceptions.NoByStringException;
 import doraemon.exceptions.NoDescriptionException;
@@ -42,29 +42,15 @@ public class TaskManager {
             default:
                 // Throw exception
             }
-        } catch (NoDescriptionException e) {
-            return "The description is empty!";
-        } catch (NoByPrefixException e) {
-            return "By prefix [/by] is missing!";
-        } catch (NoByStringException e) {
-            return "The deadline is empty!";
-        } catch (NoFromPrefixException e) {
-            return "From prefix [/from] is missing!";
-        } catch (NoFromStringException e) {
-            return "The start date is missing!";
-        } catch (NoToPrefixException e) {
-            return "To prefix [/to] is missing!";
-        } catch (NoToStringException e) {
-            return "The end date is missing!";
+        } catch (AddTaskException e) {
+            return e.getErrorMessage();
         }
-
         return "Got it. I've added this task:" +
                 "\n\t\t" + tasks.get(tasks.size() - 1) +
                 "\n\t Now you have " + tasks.size() + " tasks in the list.";
     }
 
-    private void addToDo(String commandArgs)
-            throws NoDescriptionException {
+    private void addToDo(String commandArgs) throws AddTaskException {
         String description = commandArgs;
         if (description.isEmpty()) {
             throw new NoDescriptionException();
@@ -72,8 +58,7 @@ public class TaskManager {
         tasks.add(tasks.size(), new ToDo(description));
     }
 
-    private void addDeadline(String commandArgs)
-            throws NoDescriptionException, NoByPrefixException, NoByStringException {
+    private void addDeadline(String commandArgs) throws AddTaskException {
         final int indexOfByPrefix = commandArgs.indexOf(DATA_PREFIX_BY);
         if (indexOfByPrefix < 0) {
             throw new NoByPrefixException();
@@ -89,9 +74,7 @@ public class TaskManager {
         tasks.add(tasks.size(), new Deadline(description, by));
     }
 
-    private void addEvent(String commandArgs)
-            throws NoDescriptionException, NoFromPrefixException, NoFromStringException,
-            NoToPrefixException, NoToStringException {
+    private void addEvent(String commandArgs) throws AddTaskException {
         final int indexOfFromPrefix = commandArgs.indexOf(DATA_PREFIX_FROM);
         final int indexOfToPrefix = commandArgs.indexOf(DATA_PREFIX_TO);
         if (indexOfFromPrefix < 0) {
@@ -147,32 +130,39 @@ public class TaskManager {
     }
 
     public String setIsDone(int taskIndex, boolean isDone) {
+        Task selectedTask;
         try {
-            tasks.get(taskIndex).setDone(isDone);
+            selectedTask = tasks.get(taskIndex);
+            selectedTask.setDone(isDone);
         } catch (Exception e) {
             return "Task " + (taskIndex + 1) + " does not exist";
         }
         if (isDone) {
-            return "Nice! I've marked this task as done:\n\t\t " + tasks.get(taskIndex);
+            return "Nice! I've marked this task as done:\n\t\t " + selectedTask;
         } else {
-            return "Nice! I've marked this task as not done yet:\n\t\t " + tasks.get(taskIndex);
+            return "Nice! I've marked this task as not done yet:\n\t\t " + selectedTask;
         }
     }
 
     public String deleteTask(int taskIndex) {
-        String task;
+        Task selectedtask;
         try {
-            task = String.valueOf(tasks.get(taskIndex));
+            selectedtask = tasks.get(taskIndex);
             tasks.remove(taskIndex);
         } catch (Exception e) {
             return "Task " + (taskIndex + 1) + " does not exist";
         }
         return "Noted. I've removed this task" +
-                "\n\t\t" + task +
+                "\n\t\t" + selectedtask +
                 "\n\t Now you have " + tasks.size() + " tasks in the list.";
     }
 
-    public String readTasksAsFile() {
+    public String clearTasks() {
+        tasks.clear();
+        return "All tasks has been cleared";
+    }
+
+    public String readTasksFromFile() {
         File f = new File(FILE_DIRECTORY + FILE_NAME);
         Scanner s;
         String message = "Loading Tasks.txt\n\t ";
@@ -186,7 +176,7 @@ public class TaskManager {
             Task temp;
             try {
                 String[] commandArgs = s.nextLine().split(DELIMITER);
-                temp = parseTask(commandArgs);
+                temp = parseTasksFromText(commandArgs);
             } catch (Exception e) {
                 if (!hasError) {
                     message += "Format Error found\n\t ";
@@ -203,8 +193,8 @@ public class TaskManager {
         return message + "Tasks.txt read successfully";
     }
 
-    private static Task parseTask(String[] commandArgs) throws Exception {
-        Task temp = new ToDo("Dummy");
+    private static Task parseTasksFromText(String[] commandArgs) throws Exception {
+        Task temp;
         String taskType = commandArgs[0];
         String taskStatus = commandArgs[1];
         String description = commandArgs[2];
@@ -248,10 +238,5 @@ public class TaskManager {
             return "Tasks.txt failed to save";
         }
         return "Tasks.txt saved successfully" + "\n\t full path: " + file.getAbsolutePath();
-    }
-
-    public String clearTasks() {
-        tasks.clear();
-        return "All tasks has been cleared";
     }
 }

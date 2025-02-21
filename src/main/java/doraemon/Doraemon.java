@@ -11,73 +11,74 @@ public class Doraemon {
     private static final String LINE_PREFIX = "\t ";
     private static final String LINE_DIVIDER = "__________________________________________________";
 
-    // Will go to Parser class in future development
+    // Will go to Formatter class in future development
     // or perhaps a User Guide
-    private static final String LS = "\n\t "; // Line Separator
+    private static final String LINE_SEPERATOR = "\n\t "; // Line Separator
     private static final String MESSAGE_GOODBYE = "Bye. Hope to see you again soon!";
     private static final String MESSAGE_HELLO =
-            "Hello! I'm Doraemon!" + LS +
-                    "What can I do for you?" + LS +
+            "Hello! I'm Doraemon!" + LINE_SEPERATOR +
+                    "What can I do for you?" + LINE_SEPERATOR +
                     "Type [help] for all commands";
     private static final String MESSAGE_INVALID =
-            "Invalid Command!" + LS
+            "Invalid Command!" + LINE_SEPERATOR
                     + "Type [help] for all commands";
 
     private static final String USAGE_INFO_TODO =
-            "[todo]: Creates a task that you need to do" + LS +
-                    "Parameters: todo description" + LS +
-                    "Example: todo finish iP" + LS;
+            "[todo]: Creates a task that you need to do" + LINE_SEPERATOR +
+                    "Parameters: todo description" + LINE_SEPERATOR +
+                    "Example: todo finish iP" + LINE_SEPERATOR;
     private static final String USAGE_INFO_DEADLINE =
-            "[deadline]: Creates a task that needs to be finish by a deadline" + LS +
-                    "Parameters: deadline description /by end date" + LS +
-                    "Example: deadline do week 5 task /by 14 Feb 1600" + LS;
+            "[deadline]: Creates a task that needs to be finish by a deadline" + LINE_SEPERATOR +
+                    "Parameters: deadline description /by end date" + LINE_SEPERATOR +
+                    "Example: deadline do week 5 task /by 14 Feb 1600" + LINE_SEPERATOR;
     private static final String USAGE_INFO_EVENT =
-            "[event]: Creates a task that have a start and end date" + LS +
-                    "Parameters: event description /from start date /to end date" + LS +
-                    "            event description /to end date /from start date" + LS +
-                    "Example: event exam week /from 26 Apr /to 10 May" + LS;
+            "[event]: Creates a task that have a start and end date" + LINE_SEPERATOR +
+                    "Parameters: event description /from start date /to end date" + LINE_SEPERATOR +
+                    "            event description /to end date /from start date" + LINE_SEPERATOR +
+                    "Example: event exam week /from 26 Apr /to 10 May" + LINE_SEPERATOR;
     private static final String USAGE_INFO_LIST =
-            "[list]: Display every tasks with task number, its type and whether it is done" + LS +
-                    "Format: [TaskType][isDone] Task_Description" + LS +
-                    "Example: list" + LS;
+            "[list]: Display every tasks with task number, its type and whether it is done" + LINE_SEPERATOR +
+                    "Format: [TaskType][isDone] Task_Description" + LINE_SEPERATOR +
+                    "Example: list" + LINE_SEPERATOR;
     private static final String USAGE_INFO_MARK =
-            "[mark]: Mark specified task as done" + LS +
-                    "Parameters: mark task-number" + LS +
-                    "Example: mark 1" + LS;
+            "[mark]: Mark specified task as done" + LINE_SEPERATOR +
+                    "Parameters: mark task-number" + LINE_SEPERATOR +
+                    "Example: mark 1" + LINE_SEPERATOR;
     private static final String USAGE_INFO_UNMARK =
-            "[unmark]: Mark specified task as not done" + LS +
-                    "Parameters: unmark task-number" + LS +
-                    "Example: unmark 1" + LS;
+            "[unmark]: Mark specified task as not done" + LINE_SEPERATOR +
+                    "Parameters: unmark task-number" + LINE_SEPERATOR +
+                    "Example: unmark 1" + LINE_SEPERATOR;
     private static final String USAGE_INFO_DELETE =
-            "[delete]: Delete specified task" + LS +
-                    "Parameters: delete task-number" + LS +
-                    "Example: delete 1" + LS;
+            "[delete]: Delete specified task" + LINE_SEPERATOR +
+                    "Parameters: delete task-number" + LINE_SEPERATOR +
+                    "Example: delete 1" + LINE_SEPERATOR;
     private static final String USAGE_INFO_SAVE =
-            "[save]: Save all tasks into a text file" + LS +
-                    "Example: save" + LS;
+            "[save]: Save all tasks into a text file" + LINE_SEPERATOR +
+                    "Example: save" + LINE_SEPERATOR;
     private static final String USAGE_INFO_CLEAR =
-            "[clear]: Clear all tasks in the list" + LS +
-                    "Example: clear" + LS;
+            "[clear]: Clear all tasks in the list" + LINE_SEPERATOR +
+                    "Example: clear" + LINE_SEPERATOR;
     private static final String USAGE_INFO_HELP =
-            "[help]: Displays this current message, showing all commands with examples and format" + LS +
-                    "Example: help" + LS;
+            "[help]: Displays this current message, showing all commands with examples and format" + LINE_SEPERATOR +
+                    "Example: help" + LINE_SEPERATOR;
     private static final String USAGE_INFO_BYE =
-            "[bye]: Exits the programme" + LS +
-                    "Example: bye" + LS;
+            "[bye]: Exits the programme" + LINE_SEPERATOR +
+                    "Example: bye" + LINE_SEPERATOR;
     private static final String MESSAGE_HELP =
-            USAGE_INFO_TODO + LS +
-                    USAGE_INFO_DEADLINE + LS +
-                    USAGE_INFO_EVENT + LS +
-                    USAGE_INFO_LIST + LS +
-                    USAGE_INFO_MARK + LS +
-                    USAGE_INFO_UNMARK + LS +
-                    USAGE_INFO_DELETE + LS +
-                    USAGE_INFO_CLEAR + LS +
-                    USAGE_INFO_SAVE + LS +
-                    USAGE_INFO_HELP + LS +
+            USAGE_INFO_TODO + LINE_SEPERATOR +
+                    USAGE_INFO_DEADLINE + LINE_SEPERATOR +
+                    USAGE_INFO_EVENT + LINE_SEPERATOR +
+                    USAGE_INFO_LIST + LINE_SEPERATOR +
+                    USAGE_INFO_MARK + LINE_SEPERATOR +
+                    USAGE_INFO_UNMARK + LINE_SEPERATOR +
+                    USAGE_INFO_DELETE + LINE_SEPERATOR +
+                    USAGE_INFO_CLEAR + LINE_SEPERATOR +
+                    USAGE_INFO_SAVE + LINE_SEPERATOR +
+                    USAGE_INFO_HELP + LINE_SEPERATOR +
                     USAGE_INFO_BYE;
 
 
+    // Will go into Parser class in future development
     private static final String COMMAND_TODO = "todo";
     private static final String COMMAND_DEADLINE = "deadline";
     private static final String COMMAND_EVENT = "event";
@@ -95,7 +96,7 @@ public class Doraemon {
 
     public static void main(String[] args) {
         echo(MESSAGE_HELLO);
-        echo(TASK_MANAGER.readTasksAsFile() + LS + TASK_MANAGER.getTasks());
+        echo(TASK_MANAGER.readTasksFromFile() + LINE_SEPERATOR + TASK_MANAGER.getTasks());
         while (true) {
             String inputLine = SCANNER.nextLine();
             String feedback = executeCommand(inputLine);
