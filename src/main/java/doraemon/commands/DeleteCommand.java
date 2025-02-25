@@ -3,8 +3,7 @@ package doraemon.commands;
 import doraemon.Formatter;
 import doraemon.Storage;
 import doraemon.exceptions.InvalidTaskNumberException;
-import doraemon.task.TaskManager;
-import doraemon.task.TaskType;
+import doraemon.TaskManager;
 
 public class DeleteCommand extends Command {
     private final String commandArgs;

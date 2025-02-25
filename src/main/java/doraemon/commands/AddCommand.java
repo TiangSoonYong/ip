@@ -3,7 +3,7 @@ package doraemon.commands;
 import doraemon.Formatter;
 import doraemon.Storage;
 import doraemon.exceptions.AddTaskException;
-import doraemon.task.TaskManager;
+import doraemon.TaskManager;
 import doraemon.task.TaskType;
 
 public class AddCommand extends Command {

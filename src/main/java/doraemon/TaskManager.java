@@ -1,6 +1,5 @@
-package doraemon.task;
+package doraemon;
 
-import doraemon.Storage;
 import doraemon.exceptions.AddTaskException;
 import doraemon.exceptions.NoByPrefixException;
 import doraemon.exceptions.NoByStringException;
@@ -9,6 +8,11 @@ import doraemon.exceptions.NoFromPrefixException;
 import doraemon.exceptions.NoFromStringException;
 import doraemon.exceptions.NoToPrefixException;
 import doraemon.exceptions.NoToStringException;
+import doraemon.task.Deadline;
+import doraemon.task.Event;
+import doraemon.task.Task;
+import doraemon.task.TaskType;
+import doraemon.task.ToDo;
 
 import java.util.ArrayList;
 

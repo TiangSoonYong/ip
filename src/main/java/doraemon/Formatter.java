@@ -73,15 +73,20 @@ public class Formatter {
 
     // Formatter Methods
     public void echo(String... message) {
-        System.out.println(LINE_PREFIX + LINE_DIVIDER);
         for (String m : message) {
             System.out.println(LINE_PREFIX + m);
         }
+    }
+
+    public void showLine() {
         System.out.println(LINE_PREFIX + LINE_DIVIDER);
     }
 
     public void showGreet() {
+        this.showLine();
         this.echo(MESSAGE_HELLO);
+        this.showLine();
+
     }
 
     public void showGoodbye() {

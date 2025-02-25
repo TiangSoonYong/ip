@@ -3,7 +3,7 @@ package doraemon.commands;
 import doraemon.Formatter;
 import doraemon.Storage;
 import doraemon.exceptions.InvalidTaskNumberException;
-import doraemon.task.TaskManager;
+import doraemon.TaskManager;
 
 public class MarkCommand extends Command {
     private final String commandArgs;
