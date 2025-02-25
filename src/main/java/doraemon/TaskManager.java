@@ -1,6 +1,7 @@
 package doraemon;
 
 import doraemon.exceptions.AddTaskException;
+import doraemon.exceptions.InvalidFormatException;
 import doraemon.exceptions.NoByPrefixException;
 import doraemon.exceptions.NoByStringException;
 import doraemon.exceptions.NoDescriptionException;
@@ -14,7 +15,11 @@ import doraemon.task.Task;
 import doraemon.task.TaskType;
 import doraemon.task.ToDo;
 
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 public class TaskManager {
     private static final String DATA_PREFIX_BY = "/by";
@@ -59,9 +64,15 @@ public class TaskManager {
         if (description.isEmpty()) {
             throw new NoDescriptionException();
         }
-        String by = removePrefixSign(commandArgs.substring(indexOfByPrefix, commandArgs.length()), DATA_PREFIX_BY).trim();
-        if (by.isEmpty()) {
+        String byString = removePrefixSign(commandArgs.substring(indexOfByPrefix, commandArgs.length()), DATA_PREFIX_BY).trim();
+        if (byString.isEmpty()) {
             throw new NoByStringException();
+        }
+        LocalDateTime by;
+        try {
+            by = LocalDateTime.parse(byString, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        } catch (DateTimeParseException e) {
+            throw new InvalidFormatException();
         }
         tasks.add(tasks.size(), new Deadline(description, by));
     }
@@ -77,31 +88,40 @@ public class TaskManager {
         }
         int indexOfFirstPrefix = Math.min(indexOfFromPrefix, indexOfToPrefix);
         String description;
-        String from;
-        String to;
+        String fromString;
+        String toString;
 
         description = commandArgs.substring(0, indexOfFirstPrefix).trim();
         if (description.isEmpty()) {
             throw new NoDescriptionException();
         }
         if (indexOfFromPrefix < indexOfToPrefix) { // Description - From - To
-            from = removePrefixSign(commandArgs.substring(indexOfFromPrefix, indexOfToPrefix),
+            fromString = removePrefixSign(commandArgs.substring(indexOfFromPrefix, indexOfToPrefix),
                     DATA_PREFIX_FROM).trim();
-            to = removePrefixSign(commandArgs.substring(indexOfToPrefix, commandArgs.length()),
+            toString = removePrefixSign(commandArgs.substring(indexOfToPrefix, commandArgs.length()),
                     DATA_PREFIX_TO).trim();
 
         } else { // Description - To - From
-            from = removePrefixSign(commandArgs.substring(indexOfFromPrefix, commandArgs.length()),
+            fromString = removePrefixSign(commandArgs.substring(indexOfFromPrefix, commandArgs.length()),
                     DATA_PREFIX_FROM).trim();
-            to = removePrefixSign(commandArgs.substring(indexOfToPrefix, indexOfFromPrefix),
+            toString = removePrefixSign(commandArgs.substring(indexOfToPrefix, indexOfFromPrefix),
                     DATA_PREFIX_TO).trim();
         }
 
-        if (from.isEmpty()) {
+        if (fromString.isEmpty()) {
             throw new NoFromStringException();
         }
-        if (to.isEmpty()) {
+        if (toString.isEmpty()) {
             throw new NoToStringException();
+        }
+
+        LocalDateTime from;
+        LocalDateTime to;
+        try {
+            from = LocalDateTime.parse(fromString, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+            to = LocalDateTime.parse(toString, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        } catch (DateTimeParseException e) {
+            throw new InvalidFormatException();
         }
         tasks.add(tasks.size(), new Event(description, from, to));
     }
