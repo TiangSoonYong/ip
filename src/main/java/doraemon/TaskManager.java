@@ -1,6 +1,7 @@
 package doraemon;
 
 import doraemon.exceptions.AddTaskException;
+import doraemon.exceptions.InvalidKeywordException;
 import doraemon.exceptions.NoByPrefixException;
 import doraemon.exceptions.NoByStringException;
 import doraemon.exceptions.NoDescriptionException;
@@ -147,6 +148,24 @@ public class TaskManager {
         return "Noted. I've removed this task" +
                 "\n\t\t" + selectedtask +
                 "\n\t Now you have " + tasks.size() + " tasks in the list.";
+    }
+
+    public String findTasks(String keyword) throws InvalidKeywordException {
+        if (keyword.isEmpty()) {
+            throw new InvalidKeywordException();
+        }
+        String message = "Here are the matching tasks in your list";
+        boolean hasMatch = false;
+        for (Task task: tasks) {
+            if (task.hasKeyword(keyword)) {
+                message += "\n\t " + String.format("%d. ", tasks.indexOf(task) + 1) + task;
+                hasMatch = true;
+            }
+        }
+        if (!hasMatch) {
+            return "There are no matching tasks in your list";
+        }
+        return  message;
     }
 
     public String clearTasks() {
