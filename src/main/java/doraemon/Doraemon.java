@@ -93,10 +93,11 @@ public class Doraemon {
 
     private static final TaskManager TASK_MANAGER = new TaskManager();
     private static final Scanner SCANNER = new Scanner(System.in);
+    private static final Storage STORAGE = new Storage();
 
     public static void main(String[] args) {
         echo(MESSAGE_HELLO);
-        echo(TASK_MANAGER.readTasksFromFile() + LINE_SEPERATOR + TASK_MANAGER.getTasks());
+        echo(TASK_MANAGER.readTasksFromFile(STORAGE) + LINE_SEPERATOR + TASK_MANAGER.getTasks());
         while (true) {
             String inputLine = SCANNER.nextLine();
             String feedback = executeCommand(inputLine);
@@ -131,7 +132,7 @@ public class Doraemon {
             case COMMAND_HELP:
                 return MESSAGE_HELP;
             case COMMAND_SAVE:
-                return TASK_MANAGER.saveTasksAsFile();
+                return TASK_MANAGER.saveTasksAsFile(STORAGE);
             case COMMAND_CLEAR:
                 return TASK_MANAGER.clearTasks();
             default:
