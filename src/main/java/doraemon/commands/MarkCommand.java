@@ -2,6 +2,7 @@ package doraemon.commands;
 
 import doraemon.Formatter;
 import doraemon.Storage;
+import doraemon.exceptions.InvalidTaskNumberException;
 import doraemon.task.TaskManager;
 
 public class MarkCommand extends Command {
@@ -14,8 +15,12 @@ public class MarkCommand extends Command {
     }
 
     @Override
-    public void execute(TaskManager taskManager, Formatter formatter, Storage storage) {
-        String feedback = taskManager.setIsDone(Integer.parseInt(this.commandArgs) - 1, this.isDone);
-        formatter.echo(feedback);
+    public void execute(TaskManager taskManager, Formatter formatter, Storage storage) throws InvalidTaskNumberException {
+        try {
+            String feedback = taskManager.setIsDone(Integer.parseInt(this.commandArgs) - 1, this.isDone);
+            formatter.echo(feedback);
+        } catch (NumberFormatException e) {
+            throw new InvalidTaskNumberException();
+        }
     }
 }

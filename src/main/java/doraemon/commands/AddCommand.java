@@ -2,6 +2,7 @@ package doraemon.commands;
 
 import doraemon.Formatter;
 import doraemon.Storage;
+import doraemon.exceptions.AddTaskException;
 import doraemon.task.TaskManager;
 import doraemon.task.TaskType;
 
@@ -15,7 +16,7 @@ public class AddCommand extends Command {
     }
 
     @Override
-    public void execute(TaskManager taskManager, Formatter formatter, Storage storage) {
+    public void execute(TaskManager taskManager, Formatter formatter, Storage storage) throws AddTaskException {
         String feedback = taskManager.addTask(this.commandArgs, this.taskType);
         formatter.echo(feedback);
     }

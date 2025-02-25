@@ -19,23 +19,19 @@ public class TaskManager {
 
     private final ArrayList<Task> tasks = new ArrayList<>();
 
-    public String addTask(String commandArgs, TaskType taskType) {
-        try {
-            switch (taskType) {
-            case TODO:
-                addToDo(commandArgs);
-                break;
-            case DEADLINE:
-                addDeadline(commandArgs);
-                break;
-            case EVENT:
-                addEvent(commandArgs);
-                break;
-            default:
-                // Throw exception
-            }
-        } catch (AddTaskException e) {
-            return e.getErrorMessage();
+    public String addTask(String commandArgs, TaskType taskType) throws AddTaskException {
+        switch (taskType) {
+        case TODO:
+            addToDo(commandArgs);
+            break;
+        case DEADLINE:
+            addDeadline(commandArgs);
+            break;
+        case EVENT:
+            addEvent(commandArgs);
+            break;
+        default:
+            // Throw exception
         }
         return "Got it. I've added this task:" +
                 "\n\t\t" + tasks.get(tasks.size() - 1) +
@@ -111,7 +107,7 @@ public class TaskManager {
     }
 
     public String getTasks() {
-        if (tasks.size() == 0) {
+        if (tasks.isEmpty()) {
             return "You do not have any tasks in your list";
         }
         String message = "Here are the tasks in your list:";
@@ -154,7 +150,7 @@ public class TaskManager {
         return "All tasks has been cleared";
     }
 
-    public String readTasksFromFile(Storage storage){
+    public String readTasksFromFile(Storage storage) {
         return storage.readTasksFromFile(tasks);
     }
 

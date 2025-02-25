@@ -10,6 +10,7 @@ import doraemon.commands.HelpCommand;
 import doraemon.commands.ListCommand;
 import doraemon.commands.MarkCommand;
 import doraemon.commands.SaveCommand;
+import doraemon.exceptions.InvalidTaskNumberException;
 import doraemon.task.TaskType;
 
 import java.util.Scanner;
@@ -43,11 +44,10 @@ public class Parser {
         return inputLine;
     }
 
-    public Command getCommand(String userInputString) throws NumberFormatException {
+    public Command getCommand(String userInputString) {
         final String[] commandTypeAndParams = splitCommandWordAndArgs(userInputString);
         final String commandType = commandTypeAndParams[0].toLowerCase();
         final String commandArgs = commandTypeAndParams[1];
-
         switch (commandType) {
         case COMMAND_BYE:
             return new ByeCommand();
