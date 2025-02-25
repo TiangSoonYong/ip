@@ -8,10 +8,6 @@ import java.util.Scanner;
 
 public class Doraemon {
     // Will go to Formatter class in future development
-    private static final String LINE_PREFIX = "\t ";
-    private static final String LINE_DIVIDER = "__________________________________________________";
-
-    // Will go to Formatter class in future development
     // or perhaps a User Guide
     private static final String LINE_SEPERATOR = "\n\t "; // Line Separator
     private static final String MESSAGE_GOODBYE = "Bye. Hope to see you again soon!";
@@ -94,14 +90,15 @@ public class Doraemon {
     private static final TaskManager TASK_MANAGER = new TaskManager();
     private static final Scanner SCANNER = new Scanner(System.in);
     private static final Storage STORAGE = new Storage();
+    private static final Formatter FORMATTER = new Formatter();
 
     public static void main(String[] args) {
-        echo(MESSAGE_HELLO);
-        echo(TASK_MANAGER.readTasksFromFile(STORAGE) + LINE_SEPERATOR + TASK_MANAGER.getTasks());
+        FORMATTER.echo(MESSAGE_HELLO);
+        FORMATTER.echo(TASK_MANAGER.readTasksFromFile(STORAGE) + LINE_SEPERATOR + TASK_MANAGER.getTasks());
         while (true) {
             String inputLine = SCANNER.nextLine();
             String feedback = executeCommand(inputLine);
-            echo(feedback);
+            FORMATTER.echo(feedback);
         }
     }
 
@@ -113,7 +110,7 @@ public class Doraemon {
         try {
             switch (commandType) {
             case COMMAND_BYE:
-                echo(MESSAGE_GOODBYE);
+                FORMATTER.echo(MESSAGE_GOODBYE);
                 System.exit(0);
             case COMMAND_LIST:
                 return TASK_MANAGER.getTasks();
@@ -151,15 +148,6 @@ public class Doraemon {
         } else {
             return new String[]{split[0], ""};
         }
-    }
-
-    // Formatter Methods
-    private static void echo(String... message) {
-        System.out.println(LINE_PREFIX + LINE_DIVIDER);
-        for (String m : message) {
-            System.out.println(LINE_PREFIX + m);
-        }
-        System.out.println(LINE_PREFIX + LINE_DIVIDER);
     }
 }
 
