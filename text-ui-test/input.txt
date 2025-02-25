@@ -3,6 +3,7 @@ test
 mark 1
 todo
 todo read book
+mark a
 mark 1
 deadline
 deadline return book
@@ -22,6 +23,7 @@ todo borrow book
 list
 deadline return book /by Sunday
 event project meeting /from Mon 2pm /to 4pm
+delete a
 delete 1
 delete 3
 list

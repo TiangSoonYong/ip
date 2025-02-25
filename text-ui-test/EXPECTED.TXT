@@ -3,7 +3,6 @@
 	 What can I do for you?
 	 Type [help] for all commands
 	 __________________________________________________
-	 __________________________________________________
 	 Loading Tasks.txt
 	 Tasks.txt read successfully
 	 Here are the tasks in your list:
@@ -15,84 +14,110 @@
 	 6. [E][ ] project meeting (from: Mon 2pm to: 4pm)
 	 __________________________________________________
 	 __________________________________________________
+	 Command entered: clear
 	 All tasks has been cleared
 	 __________________________________________________
 	 __________________________________________________
+	 Command entered: test
 	 Invalid Command!
 	 Type [help] for all commands
 	 __________________________________________________
 	 __________________________________________________
+	 Command entered: mark 1
 	 Task 1 does not exist
 	 __________________________________________________
 	 __________________________________________________
+	 Command entered: todo
 	 The description is empty!
 	 __________________________________________________
 	 __________________________________________________
+	 Command entered: todo read book
 	 Got it. I've added this task:
 		[T][ ] read book
 	 Now you have 1 tasks in the list.
 	 __________________________________________________
 	 __________________________________________________
+	 Command entered: mark a
+	 Task number must be an integer!
+	 __________________________________________________
+	 __________________________________________________
+	 Command entered: mark 1
 	 Nice! I've marked this task as done:
 		 [T][X] read book
 	 __________________________________________________
 	 __________________________________________________
+	 Command entered: deadline
 	 By prefix [/by] is missing!
 	 __________________________________________________
 	 __________________________________________________
+	 Command entered: deadline return book
 	 By prefix [/by] is missing!
 	 __________________________________________________
 	 __________________________________________________
+	 Command entered: deadline return book /by
 	 The deadline is empty!
 	 __________________________________________________
 	 __________________________________________________
+	 Command entered: deadline return book /by June 6th
 	 Got it. I've added this task:
 		[D][ ] return book (by: June 6th)
 	 Now you have 2 tasks in the list.
 	 __________________________________________________
 	 __________________________________________________
+	 Command entered: event
 	 From prefix [/from] is missing!
 	 __________________________________________________
 	 __________________________________________________
+	 Command entered: event project meeting
 	 From prefix [/from] is missing!
 	 __________________________________________________
 	 __________________________________________________
+	 Command entered: event project meeting /from
 	 To prefix [/to] is missing!
 	 __________________________________________________
 	 __________________________________________________
+	 Command entered: event project meeting /to
 	 From prefix [/from] is missing!
 	 __________________________________________________
 	 __________________________________________________
+	 Command entered: event project meeting /to 4pm /from
 	 The start date is missing!
 	 __________________________________________________
 	 __________________________________________________
+	 Command entered: event project meeting /from Aug 6th 2pm /to
 	 The end date is missing!
 	 __________________________________________________
 	 __________________________________________________
+	 Command entered: event project meeting /from Aug 6th 2pm /to 4pm
 	 Got it. I've added this task:
 		[E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
 	 Now you have 3 tasks in the list.
 	 __________________________________________________
 	 __________________________________________________
+	 Command entered: event project meeting /to 4pm /from Aug 6th 2pm
 	 Got it. I've added this task:
 		[E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
 	 Now you have 4 tasks in the list.
 	 __________________________________________________
 	 __________________________________________________
+	 Command entered: todo join sports club
 	 Got it. I've added this task:
 		[T][ ] join sports club
 	 Now you have 5 tasks in the list.
 	 __________________________________________________
 	 __________________________________________________
+	 Command entered: mark 4
 	 Nice! I've marked this task as done:
 		 [E][X] project meeting (from: Aug 6th 2pm to: 4pm)
 	 __________________________________________________
 	 __________________________________________________
+	 Command entered: todo borrow book
 	 Got it. I've added this task:
 		[T][ ] borrow book
 	 Now you have 6 tasks in the list.
 	 __________________________________________________
 	 __________________________________________________
+	 Command entered: list
 	 Here are the tasks in your list:
 	 1. [T][X] read book
 	 2. [D][ ] return book (by: June 6th)
@@ -102,26 +127,35 @@
 	 6. [T][ ] borrow book
 	 __________________________________________________
 	 __________________________________________________
+	 Command entered: deadline return book /by Sunday
 	 Got it. I've added this task:
 		[D][ ] return book (by: Sunday)
 	 Now you have 7 tasks in the list.
 	 __________________________________________________
 	 __________________________________________________
+	 Command entered: event project meeting /from Mon 2pm /to 4pm
 	 Got it. I've added this task:
 		[E][ ] project meeting (from: Mon 2pm to: 4pm)
 	 Now you have 8 tasks in the list.
 	 __________________________________________________
 	 __________________________________________________
+	 Command entered: delete a
+	 Task number must be an integer!
+	 __________________________________________________
+	 __________________________________________________
+	 Command entered: delete 1
 	 Noted. I've removed this task
 		[T][X] read book
 	 Now you have 7 tasks in the list.
 	 __________________________________________________
 	 __________________________________________________
+	 Command entered: delete 3
 	 Noted. I've removed this task
 		[E][X] project meeting (from: Aug 6th 2pm to: 4pm)
 	 Now you have 6 tasks in the list.
 	 __________________________________________________
 	 __________________________________________________
+	 Command entered: list
 	 Here are the tasks in your list:
 	 1. [D][ ] return book (by: June 6th)
 	 2. [E][ ] project meeting (from: Aug 6th 2pm to: 4pm)
@@ -131,9 +165,10 @@
 	 6. [E][ ] project meeting (from: Mon 2pm to: 4pm)
 	 __________________________________________________
 	 __________________________________________________
+	 Command entered: save
 	 Tasks.txt saved successfully
 	 full path: C:\Users\Boiyo\OneDrive\Desktop\NTU 2023\2-2\CS2113 SOFTWARE ENGINEERING & OBJECT-ORIENTED PROGRAMMING\ip\text-ui-test\data\tasks.txt
 	 __________________________________________________
 	 __________________________________________________
+	 Command entered: bye
 	 Bye. Hope to see you again soon!
-	 __________________________________________________
