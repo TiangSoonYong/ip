@@ -7,7 +7,7 @@ import doraemon.TaskManager;
 public class ReadCommand extends Command {
     @Override
     public void execute(TaskManager taskManager, Formatter formatter, Storage storage) {
-        String feedback = taskManager.readTasksFromFile(storage) + "\n\t " + taskManager.getTasks();
+        String feedback = taskManager.loadTasksFromFile(storage) + "\n\t " + taskManager.getTasks();
         formatter.echo(feedback);
     }
 }

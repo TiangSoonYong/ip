@@ -4,6 +4,17 @@ import doraemon.commands.Command;
 import doraemon.commands.ReadCommand;
 import doraemon.exceptions.DoraemonException;
 
+/**
+ * <h1>Doraemon</h1>
+ * Doraemon is a Personal Assistant Chatbot that helps you
+ * keep track of various tasks, specifically to-do, deadline and event
+ * Use <code>help</code> to view all available commands or
+ * Check out the user guide in README.md
+ *
+ * @author Tiang Soon Yong
+ * @version 1.1
+ * @since 2025-02-26
+ */
 
 public class Doraemon {
     private static final TaskManager TASK_MANAGER = new TaskManager();

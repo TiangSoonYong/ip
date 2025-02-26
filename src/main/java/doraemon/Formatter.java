@@ -1,8 +1,10 @@
 package doraemon;
 
+/**
+ * <h1>Formatter</h1>
+ * Formatter deals with interactions with the user
+ */
 public class Formatter {
-    // Will go to Formatter class in future development
-    // or perhaps a User Guide
     private static final String LINE_SEPARATOR = "\n\t "; // Line Separator
     private static final String MESSAGE_GOODBYE = "Bye. Hope to see you again soon!";
     private static final String MESSAGE_HELLO =
@@ -67,11 +69,9 @@ public class Formatter {
                     USAGE_INFO_HELP + LINE_SEPARATOR +
                     USAGE_INFO_BYE;
 
-    // Will go to Formatter class in future development
     private static final String LINE_PREFIX = "\t ";
     private static final String LINE_DIVIDER = "__________________________________________________";
 
-    // Formatter Methods
     public void echo(String... message) {
         for (String m : message) {
             System.out.println(LINE_PREFIX + m);
