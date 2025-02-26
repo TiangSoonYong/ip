@@ -1,6 +1,7 @@
 package doraemon;
 
 import doraemon.exceptions.AddTaskException;
+import doraemon.exceptions.InvalidFormatException;
 import doraemon.exceptions.NoByPrefixException;
 import doraemon.exceptions.NoByStringException;
 import doraemon.exceptions.NoDescriptionException;
@@ -9,13 +10,21 @@ import doraemon.exceptions.NoFromStringException;
 import doraemon.exceptions.NoTaskTypeException;
 import doraemon.exceptions.NoToPrefixException;
 import doraemon.exceptions.NoToStringException;
+import doraemon.task.DateTimeTask;
 import doraemon.task.Deadline;
 import doraemon.task.Event;
 import doraemon.task.Task;
 import doraemon.task.TaskType;
 import doraemon.task.ToDo;
 
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
 
 /**
  * <h1>TaskManager</h1>
@@ -92,9 +101,15 @@ public class TaskManager {
         if (description.isEmpty()) {
             throw new NoDescriptionException();
         }
-        String by = removePrefixSign(commandArgs.substring(indexOfByPrefix, commandArgs.length()), DATA_PREFIX_BY).trim();
-        if (by.isEmpty()) {
+        String byString = removePrefixSign(commandArgs.substring(indexOfByPrefix, commandArgs.length()), DATA_PREFIX_BY).trim();
+        if (byString.isEmpty()) {
             throw new NoByStringException();
+        }
+        LocalDateTime by;
+        try {
+            by = LocalDateTime.parse(byString, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        } catch (DateTimeParseException e) {
+            throw new InvalidFormatException();
         }
         tasks.add(tasks.size(), new Deadline(description, by));
     }
@@ -123,31 +138,40 @@ public class TaskManager {
         }
         int indexOfFirstPrefix = Math.min(indexOfFromPrefix, indexOfToPrefix);
         String description;
-        String from;
-        String to;
+        String fromString;
+        String toString;
+        LocalDateTime from;
+        LocalDateTime to;
 
         description = commandArgs.substring(0, indexOfFirstPrefix).trim();
         if (description.isEmpty()) {
             throw new NoDescriptionException();
         }
         if (indexOfFromPrefix < indexOfToPrefix) { // Description - From - To
-            from = removePrefixSign(commandArgs.substring(indexOfFromPrefix, indexOfToPrefix),
+            fromString = removePrefixSign(commandArgs.substring(indexOfFromPrefix, indexOfToPrefix),
                     DATA_PREFIX_FROM).trim();
-            to = removePrefixSign(commandArgs.substring(indexOfToPrefix, commandArgs.length()),
+            toString = removePrefixSign(commandArgs.substring(indexOfToPrefix, commandArgs.length()),
                     DATA_PREFIX_TO).trim();
 
         } else { // Description - To - From
-            from = removePrefixSign(commandArgs.substring(indexOfFromPrefix, commandArgs.length()),
+            fromString = removePrefixSign(commandArgs.substring(indexOfFromPrefix, commandArgs.length()),
                     DATA_PREFIX_FROM).trim();
-            to = removePrefixSign(commandArgs.substring(indexOfToPrefix, indexOfFromPrefix),
+            toString = removePrefixSign(commandArgs.substring(indexOfToPrefix, indexOfFromPrefix),
                     DATA_PREFIX_TO).trim();
         }
 
-        if (from.isEmpty()) {
+        if (fromString.isEmpty()) {
             throw new NoFromStringException();
         }
-        if (to.isEmpty()) {
+        if (toString.isEmpty()) {
             throw new NoToStringException();
+        }
+
+        try {
+            from = LocalDateTime.parse(fromString, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+            to = LocalDateTime.parse(toString, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        } catch (DateTimeParseException e) {
+            throw new InvalidFormatException();
         }
         tasks.add(tasks.size(), new Event(description, from, to));
     }
@@ -168,7 +192,17 @@ public class TaskManager {
         }
         String message = "Here are the tasks in your list:";
         for (Task task : tasks) {
-            message += "\n\t " + String.format("%d. ", tasks.indexOf(task) + 1) + task;
+            message += "\n\t " + String.format("%d. ", tasks.indexOf(task) + 1) + "\t" + task;
+        }
+        return message;
+    }
+
+    public String getUpcomingTasks() {
+        String message = "Here are the upcoming tasks in your list:";
+        List<DateTimeTask> dateTimeTaskList = tasks.stream().filter(Task::hasDateTime).map(task -> (DateTimeTask) task).toList();
+        List<DateTimeTask> sortedDateTimeTaskList = dateTimeTaskList.stream().sorted(Comparator.comparing(DateTimeTask::getKeyDateTime)).toList();
+        for (DateTimeTask dateTimeTask : sortedDateTimeTaskList) {
+            message += "\n\t " + String.format("%d. ", tasks.indexOf(dateTimeTask) + 1) + "\t" + dateTimeTask;
         }
         return message;
     }

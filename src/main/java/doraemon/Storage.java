@@ -8,6 +8,7 @@ import doraemon.task.ToDo;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.FileWriter;
@@ -80,12 +81,15 @@ public class Storage {
             temp = new ToDo(description);
             break;
         case "D":
-            String by = commandArgs[3];
+            String byString = commandArgs[3];
+            LocalDateTime by = LocalDateTime.parse(byString);
             temp = new Deadline(description, by);
             break;
         case "E":
-            String from = commandArgs[3];
-            String to = commandArgs[4];
+            String fromString = commandArgs[3];
+            String toString = commandArgs[4];
+            LocalDateTime from = LocalDateTime.parse(fromString);
+            LocalDateTime to = LocalDateTime.parse(toString);
             temp = new Event(description, from, to);
             break;
         default:

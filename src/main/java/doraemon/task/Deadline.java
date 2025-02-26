@@ -1,11 +1,15 @@
 package doraemon.task;
 
-public class Deadline extends Task {
-    protected static final TaskType type = TaskType.DEADLINE;
-    protected String by;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
-    public Deadline(String description, String by) {
-        super(description);
+public class Deadline extends DateTimeTask {
+    protected static final TaskType type = TaskType.DEADLINE;
+    protected LocalDateTime by;
+
+    public Deadline(String description, LocalDateTime by) {
+        super(description, by, LocalDateTime.now().isAfter(by));
         this.by = by;
     }
 
@@ -19,11 +23,15 @@ public class Deadline extends Task {
         return this.getTaskIcon() + DELIMITER +
                 this.getStatusIcon() + DELIMITER +
                 this.description + DELIMITER +
-                this.by;
+                this.by.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+    }
+
+    private String formatForPrinting(LocalDateTime localDateTime) {
+        return localDateTime.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM));
     }
 
     @Override
     public String toString() {
-        return "[" + this.getTaskIcon() + "]" + super.toString() + " (by: " + this.by + ")";
+        return "[" + this.getTaskIcon() + "]" + super.toString() + " (by: " + this.formatForPrinting(this.by) + ")";
     }
 }

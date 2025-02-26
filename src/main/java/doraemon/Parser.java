@@ -10,6 +10,7 @@ import doraemon.commands.HelpCommand;
 import doraemon.commands.ListCommand;
 import doraemon.commands.MarkCommand;
 import doraemon.commands.SaveCommand;
+import doraemon.commands.UpcomingCommand;
 import doraemon.exceptions.InvalidTaskNumberException;
 import doraemon.task.TaskType;
 
@@ -32,6 +33,7 @@ public class Parser {
     private static final String COMMAND_HELP = "help";
     private static final String COMMAND_SAVE = "save";
     private static final String COMMAND_CLEAR = "clear";
+    private static final String COMMAND_UPCOMING = "upcoming";
 
     private static final Scanner SCANNER = new Scanner(System.in);
 
@@ -89,6 +91,8 @@ public class Parser {
             return new SaveCommand();
         case COMMAND_CLEAR:
             return new ClearCommand();
+        case COMMAND_UPCOMING:
+            return new UpcomingCommand();
         default:
             return new DefaultCommand();
         }
