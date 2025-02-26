@@ -56,11 +56,15 @@ public class Formatter {
     private static final String USAGE_INFO_BYE =
             "[bye]: Exits the programme" + LINE_SEPARATOR +
                     "Example: bye" + LINE_SEPARATOR;
+    private static final String USAGE_INFO_UPCOMING =
+            "[upcoming]: Display sorted list of tasks with date and time" + LINE_SEPARATOR +
+                    "Example: upcoming" + LINE_SEPARATOR;
     private static final String MESSAGE_HELP =
             USAGE_INFO_TODO + LINE_SEPARATOR +
                     USAGE_INFO_DEADLINE + LINE_SEPARATOR +
                     USAGE_INFO_EVENT + LINE_SEPARATOR +
                     USAGE_INFO_LIST + LINE_SEPARATOR +
+                    USAGE_INFO_UPCOMING + LINE_SEPARATOR + 
                     USAGE_INFO_MARK + LINE_SEPARATOR +
                     USAGE_INFO_UNMARK + LINE_SEPARATOR +
                     USAGE_INFO_DELETE + LINE_SEPARATOR +
