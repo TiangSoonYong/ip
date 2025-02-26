@@ -1,6 +1,7 @@
 package doraemon;
 
 import doraemon.exceptions.AddTaskException;
+import doraemon.exceptions.InvalidDurationException;
 import doraemon.exceptions.InvalidFormatException;
 import doraemon.exceptions.InvalidKeywordException;
 import doraemon.exceptions.NoByPrefixException;
@@ -100,11 +101,12 @@ public class TaskManager {
         if (description.isEmpty()) {
             throw new NoDescriptionException();
         }
+
         String byString = removePrefixSign(commandArgs.substring(indexOfByPrefix, commandArgs.length()), DATA_PREFIX_BY).trim();
+        LocalDateTime by;
         if (byString.isEmpty()) {
             throw new NoByStringException();
         }
-        LocalDateTime by;
         try {
             by = LocalDateTime.parse(byString, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         } catch (DateTimeParseException e) {
@@ -172,6 +174,11 @@ public class TaskManager {
         } catch (DateTimeParseException e) {
             throw new InvalidFormatException();
         }
+
+        if(from.isAfter(to)) {
+            throw new InvalidDurationException();
+        }
+
         tasks.add(tasks.size(), new Event(description, from, to));
     }
 
