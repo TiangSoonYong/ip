@@ -1,8 +1,10 @@
 package doraemon;
 
+/**
+ * <h1>Formatter</h1>
+ * Formatter deals with interactions with the user
+ */
 public class Formatter {
-    // Will go to Formatter class in future development
-    // or perhaps a User Guide
     private static final String LINE_SEPARATOR = "\n\t "; // Line Separator
     private static final String MESSAGE_GOODBYE = "Bye. Hope to see you again soon!";
     private static final String MESSAGE_HELLO =
@@ -20,12 +22,14 @@ public class Formatter {
     private static final String USAGE_INFO_DEADLINE =
             "[deadline]: Creates a task that needs to be finish by a deadline" + LINE_SEPARATOR +
                     "Parameters: deadline description /by end date" + LINE_SEPARATOR +
-                    "Example: deadline do week 5 task /by 14 Feb 1600" + LINE_SEPARATOR;
+                    "Format: YYYY-MM-DDtHH-MM" + LINE_SEPARATOR +
+                    "Example: deadline do week 5 task /by 2025-02-14t16:00" + LINE_SEPARATOR;
     private static final String USAGE_INFO_EVENT =
             "[event]: Creates a task that have a start and end date" + LINE_SEPARATOR +
                     "Parameters: event description /from start date /to end date" + LINE_SEPARATOR +
                     "            event description /to end date /from start date" + LINE_SEPARATOR +
-                    "Example: event exam week /from 26 Apr /to 10 May" + LINE_SEPARATOR;
+                    "Format: YYYY-MM-DDtHH-MM" + LINE_SEPARATOR +
+                    "Example: event exam week /from 2025-04-26t08:00 /to 2025-05-10t23:59" + LINE_SEPARATOR;
     private static final String USAGE_INFO_LIST =
             "[list]: Display every tasks with task number, its type and whether it is done" + LINE_SEPARATOR +
                     "Format: [TaskType][isDone] Task_Description" + LINE_SEPARATOR +
@@ -58,11 +62,15 @@ public class Formatter {
     private static final String USAGE_INFO_BYE =
             "[bye]: Exits the programme" + LINE_SEPARATOR +
                     "Example: bye" + LINE_SEPARATOR;
+    private static final String USAGE_INFO_UPCOMING =
+            "[upcoming]: Display sorted list of tasks with date and time" + LINE_SEPARATOR +
+                    "Example: upcoming" + LINE_SEPARATOR;
     private static final String MESSAGE_HELP =
             USAGE_INFO_TODO + LINE_SEPARATOR +
                     USAGE_INFO_DEADLINE + LINE_SEPARATOR +
                     USAGE_INFO_EVENT + LINE_SEPARATOR +
                     USAGE_INFO_LIST + LINE_SEPARATOR +
+                    USAGE_INFO_UPCOMING + LINE_SEPARATOR + 
                     USAGE_INFO_MARK + LINE_SEPARATOR +
                     USAGE_INFO_UNMARK + LINE_SEPARATOR +
                     USAGE_INFO_DELETE + LINE_SEPARATOR +
@@ -72,11 +80,9 @@ public class Formatter {
                     USAGE_INFO_HELP + LINE_SEPARATOR +
                     USAGE_INFO_BYE;
 
-    // Will go to Formatter class in future development
     private static final String LINE_PREFIX = "\t ";
     private static final String LINE_DIVIDER = "__________________________________________________";
 
-    // Formatter Methods
     public void echo(String... message) {
         for (String m : message) {
             System.out.println(LINE_PREFIX + m);

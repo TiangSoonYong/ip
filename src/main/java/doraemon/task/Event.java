@@ -1,12 +1,16 @@
 package doraemon.task;
 
-public class Event extends Task {
-    protected static final TaskType type = TaskType.EVENT;
-    protected String from;
-    protected String to;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
-    public Event(String description, String from, String to) {
-        super(description);
+public class Event extends DateTimeTask {
+    protected static final TaskType type = TaskType.EVENT;
+    protected LocalDateTime from;
+    protected LocalDateTime to;
+
+    public Event(String description, LocalDateTime from, LocalDateTime to) {
+        super(description, to, LocalDateTime.now().isAfter(to));
         this.from = from;
         this.to = to;
     }
@@ -21,12 +25,16 @@ public class Event extends Task {
         return this.getTaskIcon() + DELIMITER +
                 this.getStatusIcon() + DELIMITER +
                 this.description + DELIMITER +
-                this.from + DELIMITER +
-                this.to;
+                this.from.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + DELIMITER +
+                this.to.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+    }
+
+    private String formatForPrinting(LocalDateTime localDateTime) {
+        return localDateTime.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM));
     }
 
     @Override
     public String toString() {
-        return "[" + this.getTaskIcon() + "]" + super.toString() + " (from: " + this.from + " to: " + this.to + ")";
+        return "[" + this.getTaskIcon() + "]" + super.toString() + " (from: " + this.formatForPrinting(this.from) + " to: " + this.formatForPrinting(this.to) + ")";
     }
 }

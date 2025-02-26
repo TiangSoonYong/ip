@@ -7,15 +7,29 @@ import doraemon.exceptions.NoByStringException;
 import doraemon.exceptions.NoDescriptionException;
 import doraemon.exceptions.NoFromPrefixException;
 import doraemon.exceptions.NoFromStringException;
+import doraemon.exceptions.NoTaskTypeException;
 import doraemon.exceptions.NoToPrefixException;
 import doraemon.exceptions.NoToStringException;
+import doraemon.task.DateTimeTask;
 import doraemon.task.Deadline;
 import doraemon.task.Event;
 import doraemon.task.Task;
 import doraemon.task.TaskType;
 import doraemon.task.ToDo;
 
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+
+/**
+ * <h1>TaskManager</h1>
+ * TaskManager contains the task list and every task operations
+ */
 
 public class TaskManager {
     private static final String DATA_PREFIX_BY = "/by";
@@ -23,6 +37,16 @@ public class TaskManager {
     private static final String DATA_PREFIX_TO = "/to";
 
     private final ArrayList<Task> tasks = new ArrayList<>();
+
+    /**
+     * Calls the respective TaskType add methods according to
+     * the command specification
+     *
+     * @param commandArgs
+     * @param taskType
+     * @return feedback
+     * @throws NoTaskTypeException If no TaskType was given
+     */
 
     public String addTask(String commandArgs, TaskType taskType) throws AddTaskException {
         switch (taskType) {
@@ -36,12 +60,19 @@ public class TaskManager {
             addEvent(commandArgs);
             break;
         default:
-            // Throw exception
+            throw new NoTaskTypeException();
         }
         return "Got it. I've added this task:" +
                 "\n\t\t" + tasks.get(tasks.size() - 1) +
                 "\n\t Now you have " + tasks.size() + " tasks in the list.";
     }
+
+    /**
+     * Adds todo task into the task list
+     *
+     * @param commandArgs
+     * @throws NoDescriptionException If no description was given
+     */
 
     private void addToDo(String commandArgs) throws AddTaskException {
         String description = commandArgs;
@@ -50,6 +81,16 @@ public class TaskManager {
         }
         tasks.add(tasks.size(), new ToDo(description));
     }
+
+    /**
+     * Adds deadline task into the task list
+     * Removes the prefix from the command arguments
+     *
+     * @param commandArgs
+     * @throws NoDescriptionException If no description was given
+     * @throws NoByPrefixException If "/by" prefix was not found
+     * @throws NoByStringException If no deadline was given
+     */
 
     private void addDeadline(String commandArgs) throws AddTaskException {
         final int indexOfByPrefix = commandArgs.indexOf(DATA_PREFIX_BY);
@@ -60,12 +101,31 @@ public class TaskManager {
         if (description.isEmpty()) {
             throw new NoDescriptionException();
         }
-        String by = removePrefixSign(commandArgs.substring(indexOfByPrefix, commandArgs.length()), DATA_PREFIX_BY).trim();
-        if (by.isEmpty()) {
+        String byString = removePrefixSign(commandArgs.substring(indexOfByPrefix, commandArgs.length()), DATA_PREFIX_BY).trim();
+        if (byString.isEmpty()) {
             throw new NoByStringException();
+        }
+        LocalDateTime by;
+        try {
+            by = LocalDateTime.parse(byString, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        } catch (DateTimeParseException e) {
+            throw new InvalidFormatException();
         }
         tasks.add(tasks.size(), new Deadline(description, by));
     }
+
+    /**
+     * Adds event task into the task list
+     * Detects which prefixes came first
+     * Removes the prefixes from the command arguments
+     *
+     * @param commandArgs
+     * @throws NoDescriptionException If no description was given
+     * @throws NoFromPrefixException If "/from" prefix was not found
+     * @throws NoFromStringException If no start date was given
+     * @throws NoToPrefixException If "/to" prefix was not found
+     * @throws NoToStringException If no end date was given
+     */
 
     private void addEvent(String commandArgs) throws AddTaskException {
         final int indexOfFromPrefix = commandArgs.indexOf(DATA_PREFIX_FROM);
@@ -78,31 +138,40 @@ public class TaskManager {
         }
         int indexOfFirstPrefix = Math.min(indexOfFromPrefix, indexOfToPrefix);
         String description;
-        String from;
-        String to;
+        String fromString;
+        String toString;
+        LocalDateTime from;
+        LocalDateTime to;
 
         description = commandArgs.substring(0, indexOfFirstPrefix).trim();
         if (description.isEmpty()) {
             throw new NoDescriptionException();
         }
         if (indexOfFromPrefix < indexOfToPrefix) { // Description - From - To
-            from = removePrefixSign(commandArgs.substring(indexOfFromPrefix, indexOfToPrefix),
+            fromString = removePrefixSign(commandArgs.substring(indexOfFromPrefix, indexOfToPrefix),
                     DATA_PREFIX_FROM).trim();
-            to = removePrefixSign(commandArgs.substring(indexOfToPrefix, commandArgs.length()),
+            toString = removePrefixSign(commandArgs.substring(indexOfToPrefix, commandArgs.length()),
                     DATA_PREFIX_TO).trim();
 
         } else { // Description - To - From
-            from = removePrefixSign(commandArgs.substring(indexOfFromPrefix, commandArgs.length()),
+            fromString = removePrefixSign(commandArgs.substring(indexOfFromPrefix, commandArgs.length()),
                     DATA_PREFIX_FROM).trim();
-            to = removePrefixSign(commandArgs.substring(indexOfToPrefix, indexOfFromPrefix),
+            toString = removePrefixSign(commandArgs.substring(indexOfToPrefix, indexOfFromPrefix),
                     DATA_PREFIX_TO).trim();
         }
 
-        if (from.isEmpty()) {
+        if (fromString.isEmpty()) {
             throw new NoFromStringException();
         }
-        if (to.isEmpty()) {
+        if (toString.isEmpty()) {
             throw new NoToStringException();
+        }
+
+        try {
+            from = LocalDateTime.parse(fromString, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+            to = LocalDateTime.parse(toString, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        } catch (DateTimeParseException e) {
+            throw new InvalidFormatException();
         }
         tasks.add(tasks.size(), new Event(description, from, to));
     }
@@ -111,17 +180,41 @@ public class TaskManager {
         return s.replace(sign, "");
     }
 
+    /**
+     * Returns message containing every task in the list
+     *
+     * @return message
+     */
+
     public String getTasks() {
         if (tasks.isEmpty()) {
             return "You do not have any tasks in your list";
         }
         String message = "Here are the tasks in your list:";
         for (Task task : tasks) {
-            message += "\n\t " + String.format("%d. ", tasks.indexOf(task) + 1) + task;
+            message += "\n\t " + String.format("%d. ", tasks.indexOf(task) + 1) + "\t" + task;
         }
         return message;
     }
 
+    public String getUpcomingTasks() {
+        String message = "Here are the upcoming tasks in your list:";
+        List<DateTimeTask> dateTimeTaskList = tasks.stream().filter(Task::hasDateTime).map(task -> (DateTimeTask) task).toList();
+        List<DateTimeTask> sortedDateTimeTaskList = dateTimeTaskList.stream().sorted(Comparator.comparing(DateTimeTask::getKeyDateTime)).toList();
+        for (DateTimeTask dateTimeTask : sortedDateTimeTaskList) {
+            message += "\n\t " + String.format("%d. ", tasks.indexOf(dateTimeTask) + 1) + "\t" + dateTimeTask;
+        }
+        return message;
+    }
+
+    /**
+     * Mark or unmark selected tasks
+     * If taskIndex does not exist, error message is returned
+     *
+     * @param taskIndex
+     * @param isDone
+     * @return message
+     */
     public String setIsDone(int taskIndex, boolean isDone) {
         Task selectedTask;
         try {
@@ -136,6 +229,14 @@ public class TaskManager {
             return "Nice! I've marked this task as not done yet:\n\t\t " + selectedTask;
         }
     }
+
+    /**
+     * Deletes selected task
+     * If taskIndex does not exist, error message is returned
+     *
+     * @param taskIndex
+     * @return message
+     */
 
     public String deleteTask(int taskIndex) {
         Task selectedtask;
@@ -167,17 +268,37 @@ public class TaskManager {
         }
         return  message;
     }
+  
+    /**
+     * Clears the task list
+     *
+     * @return message
+     */
 
     public String clearTasks() {
         tasks.clear();
         return "All tasks has been cleared";
     }
 
-    public String readTasksFromFile(Storage storage) {
-        return storage.readTasksFromFile(tasks);
+    /**
+     * Calls storage object to read tasks from file
+     *
+     * @param storage
+     * @return message
+     */
+
+    public String loadTasksFromFile(Storage storage) {
+        return storage.loadTasksFromFile(tasks);
     }
 
-    public String saveTasksAsFile(Storage storage) {
-        return storage.saveTasksAsFile(tasks);
+    /**
+     * Calls storage object to save tasks into file
+     *
+     * @param storage
+     * @return message
+     */
+
+    public String saveTasksIntoFile(Storage storage) {
+        return storage.saveTasksIntoFile(tasks);
     }
 }

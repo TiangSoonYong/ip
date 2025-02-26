@@ -6,16 +6,16 @@ import doraemon.exceptions.InvalidTaskNumberException;
 import doraemon.TaskManager;
 
 public class DeleteCommand extends Command {
-    private final String commandArgs;
+    private final String taskNumber;
 
-    public DeleteCommand(String commandArgs) {
-        this.commandArgs = commandArgs;
+    public DeleteCommand(String taskNumber) {
+        this.taskNumber = taskNumber;
     }
 
     @Override
     public void execute(TaskManager taskManager, Formatter formatter, Storage storage) throws InvalidTaskNumberException {
         try {
-            String feedback = taskManager.deleteTask(Integer.parseInt(commandArgs) - 1);
+            String feedback = taskManager.deleteTask(Integer.parseInt(taskNumber) - 1);
             formatter.echo(feedback);
         } catch (NumberFormatException e) {
             throw new InvalidTaskNumberException();

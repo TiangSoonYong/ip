@@ -11,10 +11,16 @@ import doraemon.commands.HelpCommand;
 import doraemon.commands.ListCommand;
 import doraemon.commands.MarkCommand;
 import doraemon.commands.SaveCommand;
+import doraemon.commands.UpcomingCommand;
 import doraemon.exceptions.InvalidTaskNumberException;
 import doraemon.task.TaskType;
 
 import java.util.Scanner;
+
+/**
+ * <h1>Parser</h1>
+ * Parser deals with making sense of the user command
+ */
 
 public class Parser {
     private static final String COMMAND_TODO = "todo";
@@ -29,9 +35,16 @@ public class Parser {
     private static final String COMMAND_SAVE = "save";
     private static final String COMMAND_CLEAR = "clear";
     private static final String COMMAND_FIND = "find";
+    private static final String COMMAND_UPCOMING = "upcoming";
 
     private static final Scanner SCANNER = new Scanner(System.in);
 
+    /**
+     * Splits and returns command words and arguments
+     *
+     * @param rawUserInput
+     * @return splitted string
+     */
     private String[] splitCommandWordAndArgs(String rawUserInput) {
         final String[] split = rawUserInput.trim().split("\\s+", 2);
         if (split.length == 2) {
@@ -45,6 +58,13 @@ public class Parser {
         String inputLine = SCANNER.nextLine();
         return inputLine;
     }
+
+    /**
+     * Returns command according to user input
+     *
+     * @param userInputString
+     * @return Command
+     */
 
     public Command getCommand(String userInputString) {
         final String[] commandTypeAndParams = splitCommandWordAndArgs(userInputString);
@@ -75,6 +95,8 @@ public class Parser {
             return new ClearCommand();
         case COMMAND_FIND:
             return new FindCommand(commandArgs);
+        case COMMAND_UPCOMING:
+            return new UpcomingCommand();
         default:
             return new DefaultCommand();
         }
