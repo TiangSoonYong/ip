@@ -126,6 +126,7 @@ public class TaskManager {
      * @throws NoFromStringException If no start date was given
      * @throws NoToPrefixException If "/to" prefix was not found
      * @throws NoToStringException If no end date was given
+     * @throws InvalidDurationException If start date is later than end date
      */
 
     private void addEvent(String commandArgs) throws AddTaskException {
