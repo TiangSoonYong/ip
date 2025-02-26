@@ -1,6 +1,7 @@
 package doraemon;
 
 import doraemon.exceptions.AddTaskException;
+import doraemon.exceptions.InvalidFormatException;
 import doraemon.exceptions.InvalidKeywordException;
 import doraemon.exceptions.NoByPrefixException;
 import doraemon.exceptions.NoByStringException;
@@ -21,9 +22,7 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -197,6 +196,12 @@ public class TaskManager {
         return message;
     }
 
+    /**
+     * Returns message containing every task with dates in the list
+     * Sorted the tasks from earliest to latest
+     *
+     * @return message
+     */
     public String getUpcomingTasks() {
         String message = "Here are the upcoming tasks in your list:";
         List<DateTimeTask> dateTimeTaskList = tasks.stream().filter(Task::hasDateTime).map(task -> (DateTimeTask) task).toList();
@@ -250,6 +255,14 @@ public class TaskManager {
                 "\n\t\t" + selectedtask +
                 "\n\t Now you have " + tasks.size() + " tasks in the list.";
     }
+
+    /**
+     * Returns message containing every task that matches the keyword
+     *
+     * @param keyword
+     * @return message
+     * @throws InvalidKeywordException
+     */
 
     public String findTasks(String keyword) throws InvalidKeywordException {
         if (keyword.isEmpty()) {

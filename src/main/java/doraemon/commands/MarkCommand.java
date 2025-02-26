@@ -6,6 +6,18 @@ import doraemon.exceptions.InvalidTaskNumberException;
 import doraemon.TaskManager;
 
 public class MarkCommand extends Command {
+    private static final String USAGE_INFO_MARK =
+            "[mark]: Mark specified task as done" + LINE_SEPARATOR +
+                    "Parameters: mark task-number" + LINE_SEPARATOR +
+                    "Example: mark 1" + LINE_SEPARATOR;
+    private static final String USAGE_INFO_UNMARK =
+            "[unmark]: Mark specified task as not done" + LINE_SEPARATOR +
+                    "Parameters: unmark task-number" + LINE_SEPARATOR +
+                    "Example: unmark 1" + LINE_SEPARATOR;
+    public static final String USAGE_INFO =
+            USAGE_INFO_MARK + LINE_SEPARATOR +
+                    USAGE_INFO_UNMARK + LINE_SEPARATOR;
+
     private final String taskNumber;
     private final boolean isDone;
 

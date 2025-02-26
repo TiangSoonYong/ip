@@ -23,6 +23,9 @@ import java.util.Scanner;
  */
 
 public class Parser {
+    /**
+     * Command List
+     */
     private static final String COMMAND_TODO = "todo";
     private static final String COMMAND_DEADLINE = "deadline";
     private static final String COMMAND_EVENT = "event";

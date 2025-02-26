@@ -24,7 +24,7 @@ public abstract class DateTimeTask extends Task {
     @Override
     public String toString() {
         if (this.isOverdue) {
-            return super.toString() + "(OVERDUE)";
+            return super.toString() + " (OVERDUE)";
         } else {
             return super.toString();
         }

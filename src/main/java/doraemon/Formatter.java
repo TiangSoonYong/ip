@@ -1,5 +1,16 @@
 package doraemon;
 
+import doraemon.commands.AddCommand;
+import doraemon.commands.ByeCommand;
+import doraemon.commands.ClearCommand;
+import doraemon.commands.DeleteCommand;
+import doraemon.commands.FindCommand;
+import doraemon.commands.HelpCommand;
+import doraemon.commands.ListCommand;
+import doraemon.commands.MarkCommand;
+import doraemon.commands.SaveCommand;
+import doraemon.commands.UpcomingCommand;
+
 /**
  * <h1>Formatter</h1>
  * Formatter deals with interactions with the user
@@ -15,70 +26,17 @@ public class Formatter {
             "Invalid Command!" + LINE_SEPARATOR
                     + "Type [help] for all commands";
 
-    private static final String USAGE_INFO_TODO =
-            "[todo]: Creates a task that you need to do" + LINE_SEPARATOR +
-                    "Parameters: todo description" + LINE_SEPARATOR +
-                    "Example: todo finish iP" + LINE_SEPARATOR;
-    private static final String USAGE_INFO_DEADLINE =
-            "[deadline]: Creates a task that needs to be finish by a deadline" + LINE_SEPARATOR +
-                    "Parameters: deadline description /by end date" + LINE_SEPARATOR +
-                    "Format: YYYY-MM-DDtHH-MM" + LINE_SEPARATOR +
-                    "Example: deadline do week 5 task /by 2025-02-14t16:00" + LINE_SEPARATOR;
-    private static final String USAGE_INFO_EVENT =
-            "[event]: Creates a task that have a start and end date" + LINE_SEPARATOR +
-                    "Parameters: event description /from start date /to end date" + LINE_SEPARATOR +
-                    "            event description /to end date /from start date" + LINE_SEPARATOR +
-                    "Format: YYYY-MM-DDtHH-MM" + LINE_SEPARATOR +
-                    "Example: event exam week /from 2025-04-26t08:00 /to 2025-05-10t23:59" + LINE_SEPARATOR;
-    private static final String USAGE_INFO_LIST =
-            "[list]: Display every tasks with task number, its type and whether it is done" + LINE_SEPARATOR +
-                    "Format: [TaskType][isDone] Task_Description" + LINE_SEPARATOR +
-                    "Example: list" + LINE_SEPARATOR;
-    private static final String USAGE_INFO_MARK =
-            "[mark]: Mark specified task as done" + LINE_SEPARATOR +
-                    "Parameters: mark task-number" + LINE_SEPARATOR +
-                    "Example: mark 1" + LINE_SEPARATOR;
-    private static final String USAGE_INFO_UNMARK =
-            "[unmark]: Mark specified task as not done" + LINE_SEPARATOR +
-                    "Parameters: unmark task-number" + LINE_SEPARATOR +
-                    "Example: unmark 1" + LINE_SEPARATOR;
-    private static final String USAGE_INFO_DELETE =
-            "[delete]: Delete specified task" + LINE_SEPARATOR +
-                    "Parameters: delete task-number" + LINE_SEPARATOR +
-                    "Example: delete 1" + LINE_SEPARATOR;
-    private static final String USAGE_INFO_FIND =
-            "[find]: Find tasks that matches specified keyword" + LINE_SEPARATOR +
-                    "Parameters: find keyword" + LINE_SEPARATOR +
-                    "Example: find book";
-    private static final String USAGE_INFO_SAVE =
-            "[save]: Save all tasks into a text file" + LINE_SEPARATOR +
-                    "Example: save" + LINE_SEPARATOR;
-    private static final String USAGE_INFO_CLEAR =
-            "[clear]: Clear all tasks in the list" + LINE_SEPARATOR +
-                    "Example: clear" + LINE_SEPARATOR;
-    private static final String USAGE_INFO_HELP =
-            "[help]: Displays this current message, showing all commands with examples and format" + LINE_SEPARATOR +
-                    "Example: help" + LINE_SEPARATOR;
-    private static final String USAGE_INFO_BYE =
-            "[bye]: Exits the programme" + LINE_SEPARATOR +
-                    "Example: bye" + LINE_SEPARATOR;
-    private static final String USAGE_INFO_UPCOMING =
-            "[upcoming]: Display sorted list of tasks with date and time" + LINE_SEPARATOR +
-                    "Example: upcoming" + LINE_SEPARATOR;
     private static final String MESSAGE_HELP =
-            USAGE_INFO_TODO + LINE_SEPARATOR +
-                    USAGE_INFO_DEADLINE + LINE_SEPARATOR +
-                    USAGE_INFO_EVENT + LINE_SEPARATOR +
-                    USAGE_INFO_LIST + LINE_SEPARATOR +
-                    USAGE_INFO_UPCOMING + LINE_SEPARATOR + 
-                    USAGE_INFO_MARK + LINE_SEPARATOR +
-                    USAGE_INFO_UNMARK + LINE_SEPARATOR +
-                    USAGE_INFO_DELETE + LINE_SEPARATOR +
-                    USAGE_INFO_FIND + LINE_SEPARATOR +
-                    USAGE_INFO_CLEAR + LINE_SEPARATOR +
-                    USAGE_INFO_SAVE + LINE_SEPARATOR +
-                    USAGE_INFO_HELP + LINE_SEPARATOR +
-                    USAGE_INFO_BYE;
+            AddCommand.USAGE_INFO + LINE_SEPARATOR +
+                    ListCommand.USAGE_INFO + LINE_SEPARATOR +
+                    UpcomingCommand.USAGE_INFO + LINE_SEPARATOR +
+                    MarkCommand.USAGE_INFO + LINE_SEPARATOR +
+                    DeleteCommand.USAGE_INFO + LINE_SEPARATOR +
+                    FindCommand.USAGE_INFO + LINE_SEPARATOR +
+                    ClearCommand.USAGE_INFO + LINE_SEPARATOR +
+                    SaveCommand.USAGE_INFO + LINE_SEPARATOR +
+                    HelpCommand.USAGE_INFO + LINE_SEPARATOR +
+                    ByeCommand.USAGE_INFO;
 
     private static final String LINE_PREFIX = "\t ";
     private static final String LINE_DIVIDER = "__________________________________________________";
