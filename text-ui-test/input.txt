@@ -27,5 +27,8 @@ delete a
 delete 1
 delete 3
 list
+find
+find !
+find book
 save
 bye

@@ -165,6 +165,21 @@
 	 6. [E][ ] project meeting (from: Mon 2pm to: 4pm)
 	 __________________________________________________
 	 __________________________________________________
+	 Command entered: find
+	 Invalid keyword
+	 __________________________________________________
+	 __________________________________________________
+	 Command entered: find !
+	 There are no matching tasks in your list
+	 __________________________________________________
+	 __________________________________________________
+	 Command entered: find book
+	 Here are the matching tasks in your list
+	 1. [D][ ] return book (by: June 6th)
+	 4. [T][ ] borrow book
+	 5. [D][ ] return book (by: Sunday)
+	 __________________________________________________
+	 __________________________________________________
 	 Command entered: save
 	 Tasks.txt saved successfully
 	 full path: C:\Users\Boiyo\OneDrive\Desktop\NTU 2023\2-2\CS2113 SOFTWARE ENGINEERING & OBJECT-ORIENTED PROGRAMMING\ip\text-ui-test\data\tasks.txt

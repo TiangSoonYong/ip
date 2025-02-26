@@ -46,6 +46,10 @@ public class Formatter {
             "[delete]: Delete specified task" + LINE_SEPARATOR +
                     "Parameters: delete task-number" + LINE_SEPARATOR +
                     "Example: delete 1" + LINE_SEPARATOR;
+    private static final String USAGE_INFO_FIND =
+            "[find]: Find tasks that matches specified keyword" + LINE_SEPARATOR +
+                    "Parameters: find keyword" + LINE_SEPARATOR +
+                    "Example: find book";
     private static final String USAGE_INFO_SAVE =
             "[save]: Save all tasks into a text file" + LINE_SEPARATOR +
                     "Example: save" + LINE_SEPARATOR;
@@ -70,6 +74,7 @@ public class Formatter {
                     USAGE_INFO_MARK + LINE_SEPARATOR +
                     USAGE_INFO_UNMARK + LINE_SEPARATOR +
                     USAGE_INFO_DELETE + LINE_SEPARATOR +
+                    USAGE_INFO_FIND + LINE_SEPARATOR +
                     USAGE_INFO_CLEAR + LINE_SEPARATOR +
                     USAGE_INFO_SAVE + LINE_SEPARATOR +
                     USAGE_INFO_HELP + LINE_SEPARATOR +
