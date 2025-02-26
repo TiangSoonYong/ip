@@ -10,7 +10,7 @@ public class Event extends DateTimeTask {
     protected LocalDateTime to;
 
     public Event(String description, LocalDateTime from, LocalDateTime to) {
-        super(description, from);
+        super(description, to, LocalDateTime.now().isAfter(to));
         this.from = from;
         this.to = to;
     }

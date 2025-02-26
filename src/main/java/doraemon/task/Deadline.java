@@ -9,7 +9,7 @@ public class Deadline extends DateTimeTask {
     protected LocalDateTime by;
 
     public Deadline(String description, LocalDateTime by) {
-        super(description, by);
+        super(description, by, LocalDateTime.now().isAfter(by));
         this.by = by;
     }
 

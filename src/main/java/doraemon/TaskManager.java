@@ -140,7 +140,7 @@ public class TaskManager {
         }
         String message = "Here are the tasks in your list:";
         for (Task task : tasks) {
-            message += "\n\t " + String.format("%d. ", tasks.indexOf(task) + 1) + task;
+            message += "\n\t " + String.format("%d. ", tasks.indexOf(task) + 1) + "\t" + task;
         }
         return message;
     }
@@ -150,7 +150,7 @@ public class TaskManager {
         List<DateTimeTask> dateTimeTaskList = tasks.stream().filter(Task::hasDateTime).map(task -> (DateTimeTask) task).toList();
         List<DateTimeTask> sortedDateTimeTaskList = dateTimeTaskList.stream().sorted(Comparator.comparing(DateTimeTask::getKeyDateTime)).toList();
         for (DateTimeTask dateTimeTask : sortedDateTimeTaskList) {
-            message += "\n\t " + String.format("%d. ", tasks.indexOf(dateTimeTask) + 1) + dateTimeTask;
+            message += "\n\t " + String.format("%d. ", tasks.indexOf(dateTimeTask) + 1) + "\t" + dateTimeTask;
         }
         return message;
     }
