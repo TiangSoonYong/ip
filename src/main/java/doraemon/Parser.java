@@ -15,6 +15,11 @@ import doraemon.task.TaskType;
 
 import java.util.Scanner;
 
+/**
+ * <h1>Parser</h1>
+ * Parser deals with making sense of the user command
+ */
+
 public class Parser {
     private static final String COMMAND_TODO = "todo";
     private static final String COMMAND_DEADLINE = "deadline";
@@ -30,6 +35,12 @@ public class Parser {
 
     private static final Scanner SCANNER = new Scanner(System.in);
 
+    /**
+     * Splits and returns command words and arguments
+     *
+     * @param rawUserInput
+     * @return splitted string
+     */
     private String[] splitCommandWordAndArgs(String rawUserInput) {
         final String[] split = rawUserInput.trim().split("\\s+", 2);
         if (split.length == 2) {
@@ -43,6 +54,13 @@ public class Parser {
         String inputLine = SCANNER.nextLine();
         return inputLine;
     }
+
+    /**
+     * Returns command according to user input
+     *
+     * @param userInputString
+     * @return Command
+     */
 
     public Command getCommand(String userInputString) {
         final String[] commandTypeAndParams = splitCommandWordAndArgs(userInputString);
