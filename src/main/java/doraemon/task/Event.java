@@ -4,13 +4,13 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
-public class Event extends Task {
+public class Event extends DateTimeTask {
     protected static final TaskType type = TaskType.EVENT;
     protected LocalDateTime from;
     protected LocalDateTime to;
 
     public Event(String description, LocalDateTime from, LocalDateTime to) {
-        super(description);
+        super(description, from);
         this.from = from;
         this.to = to;
     }

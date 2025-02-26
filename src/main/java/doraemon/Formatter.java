@@ -20,12 +20,14 @@ public class Formatter {
     private static final String USAGE_INFO_DEADLINE =
             "[deadline]: Creates a task that needs to be finish by a deadline" + LINE_SEPARATOR +
                     "Parameters: deadline description /by end date" + LINE_SEPARATOR +
-                    "Example: deadline do week 5 task /by 14 Feb 1600" + LINE_SEPARATOR;
+                    "Format: YYYY-MM-DDtHH-MM" + LINE_SEPARATOR +
+                    "Example: deadline do week 5 task /by 2025-02-14t16:00" + LINE_SEPARATOR;
     private static final String USAGE_INFO_EVENT =
             "[event]: Creates a task that have a start and end date" + LINE_SEPARATOR +
                     "Parameters: event description /from start date /to end date" + LINE_SEPARATOR +
                     "            event description /to end date /from start date" + LINE_SEPARATOR +
-                    "Example: event exam week /from 26 Apr /to 10 May" + LINE_SEPARATOR;
+                    "Format: YYYY-MM-DDtHH-MM" + LINE_SEPARATOR +
+                    "Example: event exam week /from 2025-04-26t08:00 /to 2025-05-10t23:59" + LINE_SEPARATOR;
     private static final String USAGE_INFO_LIST =
             "[list]: Display every tasks with task number, its type and whether it is done" + LINE_SEPARATOR +
                     "Format: [TaskType][isDone] Task_Description" + LINE_SEPARATOR +

@@ -9,6 +9,7 @@ import doraemon.exceptions.NoFromPrefixException;
 import doraemon.exceptions.NoFromStringException;
 import doraemon.exceptions.NoToPrefixException;
 import doraemon.exceptions.NoToStringException;
+import doraemon.task.DateTimeTask;
 import doraemon.task.Deadline;
 import doraemon.task.Event;
 import doraemon.task.Task;
@@ -20,6 +21,9 @@ import java.util.ArrayList;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
 
 public class TaskManager {
     private static final String DATA_PREFIX_BY = "/by";
@@ -90,6 +94,8 @@ public class TaskManager {
         String description;
         String fromString;
         String toString;
+        LocalDateTime from;
+        LocalDateTime to;
 
         description = commandArgs.substring(0, indexOfFirstPrefix).trim();
         if (description.isEmpty()) {
@@ -115,8 +121,6 @@ public class TaskManager {
             throw new NoToStringException();
         }
 
-        LocalDateTime from;
-        LocalDateTime to;
         try {
             from = LocalDateTime.parse(fromString, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
             to = LocalDateTime.parse(toString, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
@@ -137,6 +141,16 @@ public class TaskManager {
         String message = "Here are the tasks in your list:";
         for (Task task : tasks) {
             message += "\n\t " + String.format("%d. ", tasks.indexOf(task) + 1) + task;
+        }
+        return message;
+    }
+
+    public String getUpcomingTasks() {
+        String message = "Here are the upcoming tasks in your list:";
+        List<DateTimeTask> dateTimeTaskList = tasks.stream().filter(Task::hasDateTime).map(task -> (DateTimeTask) task).toList();
+        List<DateTimeTask> sortedDateTimeTaskList = dateTimeTaskList.stream().sorted(Comparator.comparing(DateTimeTask::getKeyDateTime)).toList();
+        for (DateTimeTask dateTimeTask : sortedDateTimeTaskList) {
+            message += "\n\t " + String.format("%d. ", tasks.indexOf(dateTimeTask) + 1) + dateTimeTask;
         }
         return message;
     }

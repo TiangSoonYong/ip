@@ -20,6 +20,11 @@ public class ToDo extends Task {
     }
 
     @Override
+    public boolean hasDateTime() {
+        return false;
+    }
+
+    @Override
     public String toString() {
         return "[" + this.getTaskIcon() + "]" + super.toString();
     }

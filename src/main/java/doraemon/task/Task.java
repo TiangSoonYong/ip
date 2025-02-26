@@ -1,5 +1,7 @@
 package doraemon.task;
 
+import java.time.LocalDateTime;
+
 public abstract class Task {
     protected static final String DELIMITER = " | ";
     protected String description;
@@ -12,6 +14,7 @@ public abstract class Task {
 
     public abstract String getTaskIcon();
     public abstract String getTaskAsText();
+    public abstract boolean hasDateTime();
 
     public String getStatusIcon() {
         return (isDone ? "X" : " "); // mark done task with X
