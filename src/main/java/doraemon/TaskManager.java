@@ -90,6 +90,17 @@ public class TaskManager {
      * @throws NoDescriptionException If no description was given
      * @throws NoByPrefixException If "/by" prefix was not found
      * @throws NoByStringException If no deadline was given
+     * <p>
+     * Note: Add different format in future development
+     * 1. Allow only LocalDate or LocalTime
+     * Example 1: /by 2025-02-25
+     * Example 2: /by 14:00
+     * <p>
+     * 2. Automatically append current year if year not given
+     * Example: /by 02-25
+     * <p>
+     * 3. Allow to add duration instead of specifying deadline
+     * Example: /by 3 weeks
      */
 
     private void addDeadline(String commandArgs) throws AddTaskException {
@@ -127,6 +138,20 @@ public class TaskManager {
      * @throws NoToPrefixException If "/to" prefix was not found
      * @throws NoToStringException If no end date was given
      * @throws InvalidDurationException If start date is later than end date
+     * <p>
+     * Note: Add different format in future development
+     * 1. Allow only LocalDate or LocalTime
+     * Example 1: /from 2025-02-25 /to 2025-02-26
+     * Example 2: /from 14:00 /to 16:00
+     * <p>
+     * 2. Automatically detect the same date if date not given
+     * Example: /from 2025-02-25t16:00 /to 18:00
+     * <p>
+     * 3. Automatically append current year if year not given
+     * Example: /from 02-25 /to 03-25
+     * <p>
+     * 4. Allow to add duration instead of specifying end date
+     * Example: /from 2025-02-25t16:00 /duration 6 months
      */
 
     private void addEvent(String commandArgs) throws AddTaskException {
