@@ -21,6 +21,7 @@ public class Formatter {
     private static final String MESSAGE_HELLO =
             "Hello! I'm Doraemon!" + LINE_SEPARATOR +
                     "What can I do for you?" + LINE_SEPARATOR +
+                    "Check out the User Guide on https://tiangsoonyong.github.io/ip/" + LINE_SEPARATOR +
                     "Type [help] for all commands";
     private static final String MESSAGE_INVALID =
             "Invalid Command!" + LINE_SEPARATOR
@@ -60,6 +61,7 @@ public class Formatter {
 
     public void showGoodbye() {
         this.echo(MESSAGE_GOODBYE);
+        this.showLine();
     }
 
     public void showHelp() {
