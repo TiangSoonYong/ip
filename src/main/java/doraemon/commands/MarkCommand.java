@@ -16,7 +16,7 @@ public class MarkCommand extends Command {
                     "Example: unmark 1" + LINE_SEPARATOR;
     public static final String USAGE_INFO =
             USAGE_INFO_MARK + LINE_SEPARATOR +
-                    USAGE_INFO_UNMARK + LINE_SEPARATOR;
+                    USAGE_INFO_UNMARK;
 
     private final String taskNumber;
     private final boolean isDone;
