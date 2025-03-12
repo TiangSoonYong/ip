@@ -22,7 +22,12 @@ public class Formatter {
             "Hello! I'm Doraemon!" + LINE_SEPARATOR +
                     "What can I do for you?" + LINE_SEPARATOR +
                     "Check out the User Guide on https://tiangsoonyong.github.io/ip/" + LINE_SEPARATOR +
-                    "Type [help] for all commands";
+                    "Type [help] for all commands" + LINE_SEPARATOR +
+                    "Note to User:" + LINE_SEPARATOR +
+                    "- The current version follows STRICTLY to Date-Time Format: yyyy-MM-dd HHmm" + LINE_SEPARATOR +
+                    "  Example: 2025-03-07 0240 translates to 07 Mar 2025, 02:40am" + LINE_SEPARATOR +
+                    "  Future versions will accept flexible formatting" + LINE_SEPARATOR +
+                    "- Files are not saved automatically! Use the save command frequently!";
     private static final String MESSAGE_INVALID =
             "Invalid Command!" + LINE_SEPARATOR
                     + "Type [help] for all commands";

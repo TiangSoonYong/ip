@@ -8,22 +8,22 @@ mark 1
 deadline
 deadline return book
 deadline return book /by
-deadline return book /by 2025-06-06t18:00
+deadline return book /by 2025-06-06 1800
 event
 event project meeting
 event project meeting /from
 event project meeting /to
-event project meeting /to 2025-08-06t16:00 /from
-event project meeting /from 2025-08-06t14:00 /to
-event project meeting /from 2025-08-06t14:00 /to 2025-08-06t16:00
-event project meeting /to 2025-08-06t16:00 /from 2025-08-06t14:00
+event project meeting /to 2025-08-06 1600 /from
+event project meeting /from 2025-08-06 1400 /to
+event project meeting /from 2025-08-06 1400 /to 2025-08-06 1600
+event project meeting /to 2025-08-06 1600 /from 2025-08-06 1400
 todo join sports club
 mark 4
 todo borrow book
 upcoming
 list
-deadline return book /by 2025-03-02t19:00
-event project meeting /from 2025-03-03t14:00 /to 2025-03-03t16:00
+deadline return book /by 2025-03-02 1900
+event project meeting /from 2025-03-03 1400 /to 2025-03-03 1600
 delete a
 delete 1
 delete 3

@@ -9,6 +9,7 @@ import doraemon.task.ToDo;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.FileWriter;
@@ -82,14 +83,14 @@ public class Storage {
             break;
         case "D":
             String byString = commandArgs[3];
-            LocalDateTime by = LocalDateTime.parse(byString);
+            LocalDateTime by = LocalDateTime.parse(byString, DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
             temp = new Deadline(description, by);
             break;
         case "E":
             String fromString = commandArgs[3];
             String toString = commandArgs[4];
-            LocalDateTime from = LocalDateTime.parse(fromString);
-            LocalDateTime to = LocalDateTime.parse(toString);
+            LocalDateTime from = LocalDateTime.parse(fromString, DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
+            LocalDateTime to = LocalDateTime.parse(toString, DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
             temp = new Event(description, from, to);
             break;
         default:

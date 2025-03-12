@@ -10,27 +10,32 @@ Doraemon will greet you and automatically load your saved file,
 no worries if you do not have a saved file\
 Example:
 ``` 
-    __________________________________________________
-    Hello! I'm Doraemon!
-    What can I do for you?
-    Check out the User Guide on https://tiangsoonyong.github.io/ip/
-    Type [help] for all commands
-    __________________________________________________
-    Loading Tasks.txt
-    Tasks.txt read successfully
-    Here are the tasks in your list:
-    1. 	[T][ ] finish iP
-    2. 	[D][X] do week 5 task (OVERDUE) (by: 14 Feb 2025, 4:00:00 pm)
-    3. 	[E][ ] exam week (from: 26 Apr 2025, 8:00:00 am to: 10 May 2025, 11:59:00 pm)
-    __________________________________________________
+   __________________________________________________
+   Hello! I'm Doraemon!
+   What can I do for you?
+   Check out the User Guide on https://tiangsoonyong.github.io/ip/
+   Type [help] for all commands
+   Note to User:
+   - The current version follows STRICTLY to Date-Time Format: yyyy-MM-dd HHmm
+    Example: 2025-03-07 0240 translates to 07 Mar 2025, 02:40am
+    Future versions will accept flexible formatting
+   - Files are not saved automatically! Use the save command frequently!
+   __________________________________________________
+   Loading Tasks.txt
+   Tasks.txt read successfully
+   Here are the tasks in your list:
+   1. 	[T][ ] finish iP
+   2. 	[D][X] do week 5 task (OVERDUE) (by: 14 Feb 2025, 04:00pm)
+   3. 	[E][ ] exam week (from: 26 Apr 2025, 08:00am to: 10 May 2025, 11:59pm)
+   __________________________________________________
 ```
 
 ## Features
 > ### Note to User
 >- Command keywords are **not case-sensitive**  
->- The current version follows **STRICTLY** to Date-Time Format: `YYYY-MM-DDtHH-MM`  
+>- The current version follows **STRICTLY** to Date-Time Format: `yyyy-MM-dd HHmm`  
 >_Optional_ to specify the seconds  
->Example: `2025-03-07t02-40` translates to `7 Mar 2025, 2:40:00 am`  
+>Example: `2025-03-07 0240` translates to `07 Mar 2025, 02:40am`  
 >Future versions will accept flexible formatting
 >- Files are **not saved automatically**! Use the `save` command frequently!
 
@@ -70,13 +75,13 @@ Adds a task that needs to be finished by a deadline into the list\
 Parameters: `deadline description /by end date`\
 Example:
 ```
-deadline do week 5 task /by 2025-02-14t16:00
-    __________________________________________________
-    Command entered: deadline do week 5 task /by 2025-02-14t16:00
-    Got it. I've added this task:
-    [D][ ] do week 5 task (OVERDUE) (by: 14 Feb 2025, 4:00:00 pm)
-    Now you have 2 tasks in the list.
-    __________________________________________________
+deadline do week 5 task /by 2025-02-14 1600
+   __________________________________________________
+   Command entered: deadline do week 5 task /by 2025-02-14 1600
+   Got it. I've added this task:
+     [D][ ] do week 5 task (OVERDUE) (by: 14 Feb 2025, 04:00pm)
+   Now you have 2 tasks in the list.
+   __________________________________________________
 ```
 ### Adding Event task: `event`
 Adds a task that have a start and end date into the list\
@@ -86,13 +91,13 @@ Accepted Parameters:
 
 Example:
  ```
-event exam week /from 2025-04-26t08:00 /to 2025-05-10t23:59
-    __________________________________________________
-    Command entered: event exam week /from 2025-04-26t08:00 /to 2025-05-10t23:59
-    Got it. I've added this task:
-    [E][ ] exam week (from: 26 Apr 2025, 8:00:00 am to: 10 May 2025, 11:59:00 pm)
-    Now you have 3 tasks in the list.
-    __________________________________________________
+event exam week /from 2025-04-26 0800 /to 2025-05-10 2359
+   __________________________________________________
+   Command entered: event exam week /from 2025-04-26 0800 /to 2025-05-10 2359
+   Got it. I've added this task:
+     [E][ ] exam week (from: 26 Apr 2025, 08:00am to: 10 May 2025, 11:59pm)
+   Now you have 3 tasks in the list.
+   __________________________________________________
  ```
 
 ### Listing all tasks: `list`
@@ -105,8 +110,8 @@ list
     Command entered: list
     Here are the tasks in your list:
     1. 	[T][ ] finish iP
-    2. 	[D][X] do week 5 task (OVERDUE) (by: 14 Feb 2025, 4:00:00 pm)
-    3. 	[E][ ] exam week (from: 26 Apr 2025, 8:00:00 am to: 10 May 2025, 11:59:00 pm)
+    2. 	[D][X] do week 5 task (OVERDUE) (by: 14 Feb 2025, 4:00pm)
+    3. 	[E][ ] exam week (from: 26 Apr 2025, 08:00am to: 10 May 2025, 11:59pm)
     __________________________________________________
 
 ```
@@ -116,12 +121,12 @@ Display sorted list of tasks with date and time\
 Example:
 ```
 upcoming
-	 __________________________________________________
-	 Command entered: upcoming
-	 Here are the upcoming tasks in your list:
-	 2. 	[D][X] do week 5 task (OVERDUE) (by: 14 Feb 2025, 4:00:00 pm)
-	 3. 	[E][ ] exam week (from: 26 Apr 2025, 8:00:00 am to: 10 May 2025, 11:59:00 pm)
-	 __________________________________________________
+   __________________________________________________
+   Command entered: upcoming
+   Here are the upcoming tasks in your list:
+   2. 	[D][ ] do week 5 task (OVERDUE) (by: 14 Feb 2025, 04:00pm)
+   3. 	[E][ ] exam week (from: 26 Apr 2025, 08:00am to: 10 May 2025, 11:59pm)
+   __________________________________________________
 ```
 
 ### Marking task as done: `mark`
@@ -130,11 +135,11 @@ Parameters: `mark task-number`\
 Example:
 ```
 mark 2
-    __________________________________________________
-    Command entered: mark 2
-    Nice! I've marked this task as done:
-     [D][X] do week 5 task (OVERDUE) (by: 14 Feb 2025, 4:00:00 pm)
-    __________________________________________________
+   __________________________________________________
+   Command entered: mark 2
+   Nice! I've marked this task as done:
+      [D][X] do week 5 task (OVERDUE) (by: 14 Feb 2025, 04:00pm)
+   __________________________________________________
 ```
 
 ### Unmarking task as not done: `unmark`
@@ -143,11 +148,11 @@ Parameters: `unmark task-number`\
 Example:
 ```
 unmark 1
-    __________________________________________________
-    Command entered: unmark 1
-    Nice! I've marked this task as not done yet:
-     [T][ ] finish iP
-    __________________________________________________
+   __________________________________________________
+   Command entered: unmark 1
+   Nice! I've marked this task as not done yet:
+      [T][ ] finish iP
+   __________________________________________________
 ```
 
 ### Deleting task: `delete`
@@ -156,12 +161,12 @@ Parameters: `delete task-number`\
 Example:
 ```
 delete 2
-    __________________________________________________
-    Command entered: delete 2
-    Noted. I've removed this task
-    [D][X] do week 5 task (OVERDUE) (by: 14 Feb 2025, 4:00:00 pm)
-    Now you have 2 tasks in the list.
-    __________________________________________________
+   __________________________________________________
+   Command entered: delete 2
+   Noted. I've removed this task
+     [D][X] do week 5 task (OVERDUE) (by: 14 Feb 2025, 04:00pm)
+   Now you have 2 tasks in the list.
+   __________________________________________________
 ```
  
 ### Finding task: `find`
@@ -213,10 +218,11 @@ bye
 ```
 
 ## Known Issues
-1. When text-testing with Date-Time objects, **?** appears
+1. (**RESOLVED**) When printing with Date-Time objects, **?** appears\
+   Used custom `DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm")` instead of defined method in package
 ```
-   Command entered: event project meeting /from 2025-03-03t14:00 /to 2025-03-03t16:00
-   Got it. I've added this task:
-   [E][ ] project meeting (from: 3 Mar 2025, 2:00:00?pm to: 3 Mar 2025, 4:00:00?pm)
-   Now you have 8 tasks in the list.
+    Command entered: event project meeting /from 2025-03-03t14:00 /to 2025-03-03t16:00
+    Got it. I've added this task:
+    [E][ ] project meeting (from: 3 Mar 2025, 2:00:00?pm to: 3 Mar 2025, 4:00:00?pm)
+    Now you have 8 tasks in the list.
 ```

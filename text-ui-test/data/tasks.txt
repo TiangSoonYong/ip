@@ -1,6 +1,6 @@
-D |   | return book | 2025-06-06T18:00:00
-E |   | project meeting | 2025-08-06T14:00:00 | 2025-08-06T16:00:00
+D |   | return book | 2025-06-06 1800
+E |   | project meeting | 2025-08-06 1400 | 2025-08-06 1600
 T |   | join sports club
 T |   | borrow book
-D |   | return book | 2025-03-02T19:00:00
-E |   | project meeting | 2025-03-03T14:00:00 | 2025-03-03T16:00:00
+D |   | return book | 2025-03-02 1900
+E |   | project meeting | 2025-03-03 1400 | 2025-03-03 1600

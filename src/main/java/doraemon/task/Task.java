@@ -1,7 +1,5 @@
 package doraemon.task;
 
-import java.time.LocalDateTime;
-
 public abstract class Task {
     protected static final String DELIMITER = " | ";
     protected String description;

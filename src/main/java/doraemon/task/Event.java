@@ -2,7 +2,6 @@ package doraemon.task;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 
 public class Event extends DateTimeTask {
     protected static final TaskType type = TaskType.EVENT;
@@ -25,12 +24,12 @@ public class Event extends DateTimeTask {
         return this.getTaskIcon() + DELIMITER +
                 this.getStatusIcon() + DELIMITER +
                 this.description + DELIMITER +
-                this.from.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + DELIMITER +
-                this.to.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+                this.from.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm")) + DELIMITER +
+                this.to.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"));
     }
 
     private String formatForPrinting(LocalDateTime localDateTime) {
-        return localDateTime.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM));
+        return localDateTime.format(DateTimeFormatter.ofPattern("dd MMM yyyy, hh:mma"));
     }
 
     @Override
